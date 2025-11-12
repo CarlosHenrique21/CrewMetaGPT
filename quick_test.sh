@@ -19,7 +19,7 @@ elif [[ $API_KEY == "sk-proj-qjfm7yYc1U7" ]]; then
     echo ""
     echo "Fix with:"
     echo "  unset OPENAI_API_KEY"
-    echo "  export OPENAI_API_KEY=\"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\""
+    echo "  export OPENAI_API_KEY=\"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\""
     exit 1
 else
     echo "⚠️  Unknown API Key: $API_KEY"

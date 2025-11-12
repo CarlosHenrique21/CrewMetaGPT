@@ -10,6 +10,7 @@ from tools import (
     directory_reader_tool,
     directory_creator_tool,
 )
+from rag import knowledge_base_tools
 import config
 
 
@@ -122,6 +123,35 @@ def create_tech_writer() -> Agent:
         - Contributing guidelines
         Your documentation helps users and developers understand and use the software effectively.""",
         tools=[file_writer_tool, file_reader_tool, directory_reader_tool],
+        verbose=config.AGENT_CONFIG["verbose"],
+        allow_delegation=False,
+    )
+
+
+def create_knowledge_manager() -> Agent:
+    """
+    Knowledge Manager: RAG Agent that retrieves relevant context from knowledge base.
+    Provides contextual information to enhance other agents' work.
+    """
+    return Agent(
+        role="Knowledge Manager",
+        goal="Retrieve and provide relevant context from the knowledge base to enhance decision-making",
+        backstory="""You are a Knowledge Manager specialized in RAG (Retrieval-Augmented Generation).
+        You have access to a comprehensive knowledge base containing:
+        - Best practices and coding standards
+        - Project templates and examples
+        - Technical documentation
+        - Code examples and patterns
+
+        Your responsibilities:
+        - Search the knowledge base for relevant information
+        - Provide contextual examples and templates
+        - Suggest best practices based on similar projects
+        - Enrich tasks with relevant technical knowledge
+
+        You help other agents make informed decisions by providing them with relevant
+        context from past projects and accumulated knowledge.""",
+        tools=knowledge_base_tools + [file_reader_tool],
         verbose=config.AGENT_CONFIG["verbose"],
         allow_delegation=False,
     )

@@ -38,6 +38,8 @@ output/
 workspace/
 *.md
 !README.md
+!PLANO_ESTUDO_RAG_METRICAS.md
+!knowledge_base/**/*.md
 
 # Logs
 *.log
@@ -46,3 +48,4 @@ logs/
 # OS
 .DS_Store
 Thumbs.db
+.env
