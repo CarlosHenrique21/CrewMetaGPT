@@ -1,0 +1,28 @@
+{
+  "project_id": "project_03",
+  "project_name": "Weather CLI",
+  "description": "crie uma ferramenta CLI que consulta API de clima e mostra previs\u00e3o formatada",
+  "timestamp": "2025-11-12T18:21:59.592395",
+  "duration_seconds": 509.3485667705536,
+  "status": "success",
+  "metrics": {
+    "session_id": "20251112_181330",
+    "session_duration": 509,
+    "summary": {
+      "total_queries": 0,
+      "total_retrievals": 0,
+      "total_llm_calls": 0,
+      "total_tool_calls": 0,
+      "total_agent_tasks": 0,
+      "avg_retrieval_latency": 0.0,
+      "avg_llm_latency": 0.0,
+      "total_cost": 0.0,
+      "total_tokens": 0,
+      "throughput": 0
+    },
+    "detailed_metrics": {
+      "tool_efficiency": {},
+      "agent_success_rates": {}
+    }
+  }
+}

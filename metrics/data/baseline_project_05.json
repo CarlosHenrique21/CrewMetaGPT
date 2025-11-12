@@ -1,0 +1,37 @@
+{
+  "project_id": "project_05",
+  "project_name": "Markdown to HTML Converter",
+  "description": "crie um conversor de Markdown para HTML com suporte a t\u00edtulos, listas e links",
+  "timestamp": "2025-11-12T18:43:03.295249",
+  "duration_seconds": 731.0013802051544,
+  "status": "success",
+  "metrics": {
+    "session_id": "20251112_183052",
+    "session_duration": 731,
+    "summary": {
+      "total_queries": 0,
+      "total_retrievals": 1,
+      "total_llm_calls": 0,
+      "total_tool_calls": 1,
+      "total_agent_tasks": 0,
+      "avg_retrieval_latency": 0.7602510452270508,
+      "avg_llm_latency": 0.0,
+      "total_cost": 0.0,
+      "total_tokens": 0,
+      "throughput": 0
+    },
+    "detailed_metrics": {
+      "tool_efficiency": {
+        "retrieve_context": {
+          "total_calls": 1,
+          "successful_calls": 1,
+          "failed_calls": 0,
+          "total_duration": 0.7602510452270508,
+          "avg_duration": 0.7602510452270508,
+          "success_rate": 1.0
+        }
+      },
+      "agent_success_rates": {}
+    }
+  }
+}

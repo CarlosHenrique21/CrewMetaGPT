@@ -1,0 +1,20 @@
+{
+  "name": "markdown-html-converter",
+  "version": "1.0.0",
+  "main": "cli/index.js",
+  "scripts": {
+    "start": "node cli/index.js",
+    "test": "echo \"No tests specified\" && exit 0",
+    "frontend": "react-scripts start"
+  },
+  "dependencies": {
+    "markdown-it": "^13.0.1",
+    "dompurify": "^3.0.7",
+    "jsdom": "^22.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "react-scripts": "5.0.1"
+  }
+}

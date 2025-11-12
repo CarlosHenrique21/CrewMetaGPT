@@ -1,0 +1,37 @@
+{
+  "project_id": "project_04",
+  "project_name": "Password Generator",
+  "description": "crie um gerador de senhas seguras CLI com op\u00e7\u00f5es de tamanho, caracteres especiais e for\u00e7a",
+  "timestamp": "2025-11-12T18:30:47.279684",
+  "duration_seconds": 522.684760093689,
+  "status": "success",
+  "metrics": {
+    "session_id": "20251112_182204",
+    "session_duration": 522,
+    "summary": {
+      "total_queries": 0,
+      "total_retrievals": 1,
+      "total_llm_calls": 0,
+      "total_tool_calls": 1,
+      "total_agent_tasks": 0,
+      "avg_retrieval_latency": 1.3776509761810303,
+      "avg_llm_latency": 0.0,
+      "total_cost": 0.0,
+      "total_tokens": 0,
+      "throughput": 0
+    },
+    "detailed_metrics": {
+      "tool_efficiency": {
+        "retrieve_context": {
+          "total_calls": 1,
+          "successful_calls": 1,
+          "failed_calls": 0,
+          "total_duration": 1.3776509761810303,
+          "avg_duration": 1.3776509761810303,
+          "success_rate": 1.0
+        }
+      },
+      "agent_success_rates": {}
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "session_id": "20251112_170415",
+  "session_duration": 0,
+  "summary": {
+    "total_queries": 0,
+    "total_retrievals": 0,
+    "total_llm_calls": 0,
+    "total_tool_calls": 0,
+    "total_agent_tasks": 0,
+    "avg_retrieval_latency": 0.0,
+    "avg_llm_latency": 0.0,
+    "total_cost": 0.0,
+    "total_tokens": 0,
+    "throughput": 0
+  },
+  "detailed_metrics": {
+    "tool_efficiency": {},
+    "agent_success_rates": {}
+  },
+  "raw_metrics": {
+    "retrieval_times": [],
+    "llm_calls": [],
+    "tool_usage": [],
+    "agent_performance": [],
+    "throughput": []
+  }
+}

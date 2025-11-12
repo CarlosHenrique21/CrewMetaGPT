@@ -1,134 +1,84 @@
 import unittest
-from unittest.mock import patch, mock_open
-import os
-from src.snake import Snake
-from src.food import Food
-from src.score import Score
-from src.game import Game
-from src.config import GRID_WIDTH, GRID_HEIGHT
+from converter.parser import MarkdownParser
+from converter.sanitizer import sanitize_html
+from flask import json
+from backend import api
 
-class TestSnake(unittest.TestCase):
+class TestMarkdownParser(unittest.TestCase):
     def setUp(self):
-        self.snake = Snake([(5,5), (4,5), (3,5)])
+        self.parser = MarkdownParser()
 
-    def test_initial_head_position(self):
-        self.assertEqual(self.snake.get_head_position(), (5,5))
+    def test_title_parsing(self):
+        html = self.parser.parse('# Title')
+        self.assertIn('<h1>Title</h1>', html)
 
-    def test_turn_valid_and_reverse(self):
-        self.snake.turn((0, -1))  # turn up
-        self.assertEqual(self.snake.direction, (0, -1))
-        self.snake.turn((0, 1))  # attempt reverse down - should ignore
-        self.assertEqual(self.snake.direction, (0, -1))
+    def test_unordered_list(self):
+        md = '- Item 1\n  - Subitem'
+        html = self.parser.parse(md)
+        self.assertIn('<ul>', html)
+        self.assertIn('<li>Item 1</li>', html)
+        self.assertIn('<li>Subitem</li>', html)
 
-    def test_move_without_growth(self):
-        initial_length = len(self.snake.positions)
-        head_before = self.snake.get_head_position()
-        self.snake.move()
-        head_after = self.snake.get_head_position()
-        self.assertEqual(len(self.snake.positions), initial_length)
-        self.assertNotEqual(head_before, head_after)
+    def test_ordered_list(self):
+        md = '1. First\n2. Second'
+        html = self.parser.parse(md)
+        self.assertIn('<ol>', html)
+        self.assertIn('<li>First</li>', html)
+        self.assertIn('<li>Second</li>', html)
 
-    def test_grow(self):
-        self.snake.grow()
-        initial_length = len(self.snake.positions)
-        self.snake.move()
-        self.assertEqual(len(self.snake.positions), initial_length + 1)
+    def test_link_parsing(self):
+        md = '[Google](https://google.com)'
+        html = self.parser.parse(md)
+        self.assertIn('<a href="https://google.com">Google</a>', html)
 
-    def test_self_collision_check(self):
-        # Create collision by positions
-        self.snake.positions = [(2,2), (2,3), (3,3), (3,2), (2,2)]
-        self.assertTrue(self.snake.check_self_collision())
+    def test_html_escape(self):
+        md = '<test> & " ''
+        html = self.parser.parse(md)
+        self.assertIn('&lt;test&gt;', html)
+        self.assertIn('&amp;', html)
+        self.assertIn('&quot;', html)
+        self.assertIn('&#39;', html)
 
-class TestFood(unittest.TestCase):
-    @patch('random.choice')
-    def test_spawn_food_free_space(self, mock_choice):
-        snake_positions = [(0, 0), (1, 0)]
-        available_positions = [(x, y) for x in range(GRID_WIDTH) for y in range(GRID_HEIGHT) if (x,y) not in snake_positions]
-        mock_choice.side_effect = lambda x: x[0]
-        food = Food(snake_positions)
-        self.assertIn(food.position, available_positions)
+class TestSanitizer(unittest.TestCase):
+    def test_allowed_tags(self):
+        raw = '<h1>Header</h1><ul><li>Item</li></ul><a href="http://example.com">Link</a>'
+        clean = sanitize_html(raw)
+        self.assertIn('<h1>Header</h1>', clean)
 
-    def test_spawn_no_space(self):
-        # All positions are taken
-        snake_positions = [(x, y) for x in range(GRID_WIDTH) for y in range(GRID_HEIGHT)]
-        food = Food(snake_positions)
-        self.assertIsNone(food.position)
+    def test_strip_script(self):
+        raw = '<script>alert(1)</script><p>text</p>'
+        clean = sanitize_html(raw)
+        self.assertNotIn('<script>', clean)
+        self.assertIn('<p>text</p>', clean)
 
-class TestScore(unittest.TestCase):
-    def test_increase_and_reset(self):
-        score = Score()
-        score.increase(3)
-        self.assertEqual(score.current_score, 3)
-        score.reset()
-        self.assertEqual(score.current_score, 0)
+    def test_invalid_href_protocol(self):
+        raw = '<a href="javascript:alert(1)">bad</a>'
+        clean = sanitize_html(raw)
+        self.assertNotIn('javascript:alert(1)', clean)
+        self.assertIn('<a>bad</a>', clean)
 
-    @patch('builtins.open', new_callable=mock_open, read_data='{"high_score": 10}')
-    def test_load_high_score_valid(self, mock_file):
-        score = Score()
-        score.load_high_score()
-        self.assertEqual(score.high_score, 10)
-
-    @patch('builtins.open', new_callable=mock_open)
-    def test_save_high_score(self, mock_file):
-        score = Score()
-        score.high_score = 5
-        score.current_score = 10
-        score.save_high_score()
-        mock_file.assert_called_once_with('highscore.json', 'w')
-
-    @patch('builtins.open', side_effect=IOError)
-    def test_save_high_score_ioerror(self, mock_file):
-        score = Score()
-        score.high_score = 0
-        score.current_score = 10
-        # Should handle IOError gracefully
-        try:
-            score.save_high_score()
-        except Exception:
-            self.fail("save_high_score raised exception unexpectedly")
-
-class TestGame(unittest.TestCase):
+class TestAPI(unittest.TestCase):
     def setUp(self):
-        self.game = Game()
+        api.app.testing = True
+        self.client = api.app.test_client()
 
-    def test_initial_state(self):
-        self.assertFalse(self.game.is_game_over())
-        self.assertGreater(len(self.game.get_snake_positions()), 0)
-        self.assertIsNotNone(self.game.get_food_position())
+    def test_convert_valid(self):
+        resp = self.client.post('/convert', json={"markdown": "# Title"})
+        self.assertEqual(resp.status_code, 200)
+        data = json.loads(resp.data)
+        self.assertIn('<h1>Title</h1>', data.get('html', ''))
 
-    def test_game_update_moves_snake(self):
-        head_before = self.game.get_snake_positions()[0]
-        self.game.update(None)  # move forward
-        head_after = self.game.get_snake_positions()[0]
-        self.assertNotEqual(head_before, head_after)
+    def test_convert_invalid_json(self):
+        resp = self.client.post('/convert', data='not json', content_type='text/plain')
+        self.assertEqual(resp.status_code, 400)
 
-    def test_boundary_collision_sets_game_over(self):
-        # Move snake head outside boundaries manually
-        self.game.snake.positions[0] = (GRID_WIDTH, GRID_HEIGHT)
-        self.game.update(None)
-        self.assertTrue(self.game.is_game_over())
+    def test_convert_missing_markdown(self):
+        resp = self.client.post('/convert', json={})
+        self.assertEqual(resp.status_code, 400)
 
-    def test_self_collision_sets_game_over(self):
-        self.game.snake.positions = [(5,5), (5,6), (6,6), (6,5), (5,5)]
-        self.game.update(None)
-        self.assertTrue(self.game.is_game_over())
-
-    def test_eating_food_increases_score_and_grows(self):
-        head = self.game.get_snake_positions()[0]
-        self.game.food.position = head  # place food on head (simulate eating)
-        score_before = self.game.get_score()
-        length_before = len(self.game.get_snake_positions())
-        self.game.update(None)
-        self.assertEqual(self.game.get_score(), score_before + 1)
-        self.assertGreater(len(self.game.get_snake_positions()), length_before)
-
-    def test_reset(self):
-        self.game.game_over = True
-        self.game.score.increase(5)
-        self.game.reset()
-        self.assertFalse(self.game.is_game_over())
-        self.assertEqual(self.game.get_score(), 0)
-
+    def test_convert_non_string_markdown(self):
+        resp = self.client.post('/convert', json={"markdown": 123})
+        self.assertEqual(resp.status_code, 400)
 
 if __name__ == '__main__':
     unittest.main()

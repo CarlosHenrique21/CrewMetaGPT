@@ -1,89 +1,141 @@
-# CLI Snake Game with Pygame
+# Conversor Markdown para HTML
 
-## Project Description
+## Descrição do Projeto
 
-CLI Snake Game with Pygame is a classic snake game playable entirely from the command line interface, implemented using Python and the Pygame library. Control the snake using arrow keys or WASD to eat food and grow the snake, while avoiding collisions with the walls or the snake's own body. The game offers an engaging arcadestyle experience with smooth controls and real-time score tracking.
+O Conversor Markdown para HTML é uma ferramenta que permite converter textos escritos em Markdown para código HTML válido e seguro. A aplicação suporta a transformação precisa de títulos (níveis 1 a 3), listas ordenadas e não ordenadas (incluindo listas aninhadas), além de links formatados em Markdown. O projeto é ideal para desenvolvedores, criadores de conteúdo e qualquer usuário que queira visualizar ou publicar documentos Markdown em formato HTML.
 
-## Features
+## Funcionalidades
 
-- Classic snake gameplay with smooth, responsive controls (arrow keys or WASD).
-- Food spawns randomly for the snake to eat and grow.
-- Game over on collision with walls or self.
-- Real-time score display.
-- Restart or exit option after game over.
-- High score tracking with persistent storage.
-- Simple and portable, runs on Windows, macOS, and Linux.
+- Conversão precisa de títulos Markdown (#, ##, ###) para tags HTML correspondentes (h1, h2, h3).
+- Suporte a listas não ordenadas (-, *, +) e ordenadas (1., 2., 3.) com níveis de aninhamento.
+- Conversão de links Markdown ([texto](url)) para tags HTML <a href="url">texto</a>.
+- Interface Web interativa para edição e visualização em tempo real do HTML gerado.
+- Ferramenta de linha de comando (CLI) para conversão offline e integração em scripts.
+- API REST para integração com outros sistemas.
+- Sanitização do HTML gerado para garantir segurança contra ataques XSS.
 
-## Installation
+## Instalação
 
-1. Ensure Python 3.x is installed on your system.
-2. Install Pygame library via pip:
+### Backend (Python)
 
-```
-pip install pygame
-```
-
-3. Clone or download the CLI Snake Game source code.
-
-4. Navigate to the project directory.
-
-## Usage
-
-Run the game using the following command in your terminal or command prompt:
+1. Certifique-se de ter Python 3.x instalado.
+2. Clone o repositório do projeto.
+3. Navegue até a pasta `backend/`.
+4. Instale as dependências com:
 
 ```
-python src/main.py
+pip install -r requirements.txt
 ```
 
-### Controls
-
-- Arrow keys or WASD to control the snake direction.
-- `Esc` key to quit anytime.
-- After Game Over:
-  - Press `R` to restart the game.
-  - Press `Q` or `Esc` to quit.
-
-## Project Structure
+5. Para rodar a API REST:
 
 ```
-cli-snake-game/
-├── src/                  # Source code modules
-│   ├── __init__.py
-│   ├── main.py           # Main entry point and game loop
-│   ├── game.py           # Game logic and state management
-│   ├── snake.py          # Snake entity and movement
-│   ├── food.py           # Food spawning and position
-│   ├── input_handler.py  # Keyboard input management
-│   ├── renderer.py       # Rendering game elements with Pygame
-│   ├── score.py          # Score tracking and persistence
-│   └── config.py         # Game configuration constants
-├── assets/               # Placeholder for assets
-├── tests/                # Unit and integration tests
-│   ├── test_game.py
-│   ├── test_snake.py
-│   └── test_food.py
-├── requirements.txt      # Python dependencies
-├── highscore.json        # Persistent high score storage
-├── README.md             # Project overview and instructions
-└── user_guide.md         # Detailed user manual
+python api.py
 ```
 
-## Contributing
+A API estará disponível em http://localhost:5000.
 
-Contributions are welcome! To contribute:
+### CLI (Node.js)
 
-1. Fork the repository.
-2. Create a feature branch: `git checkout -b feature/your-feature`.
-3. Commit your changes with clear messages.
-4. Push the branch to your fork.
-5. Open a pull request describing your changes.
+1. Certifique-se de ter Node.js instalado.
+2. Na raiz do projeto, instale as dependências:
 
-Please ensure your code follows existing style and includes tests if applicable.
+```
+npm install
+```
 
-## License
+3. Para usar o CLI:
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+```
+node cli/index.js [input.md] [output.html]
+```
+
+- Se nenhum arquivo de entrada for passado, o CLI lerá o Markdown via stdin.
+- Se nenhum arquivo de saída for informado, o HTML será impresso no stdout.
+- Use `-h` ou `--help` para ver instruções.
+
+### Frontend (React)
+
+1. Acesse a pasta `frontend/`.
+2. Instale as dependências:
+
+```
+npm install
+```
+
+3. Para iniciar a aplicação web:
+
+```
+npm run frontend
+```
+
+4. Abra o navegador em http://localhost:3000 para acessar a interface.
+
+## Como Usar
+
+### Interface Web
+- Digite ou cole Markdown no editor da esquerda.
+- Veja o HTML gerado atualizado em tempo real no painel da direita.
+- Use o botão "Copiar HTML" para copiar o conteúdo convertido para a área de transferência.
+- Use o botão "Exportar HTML" para baixar o conteúdo convertido como arquivo HTML.
+
+### CLI
+- Execute a ferramenta passando um arquivo Markdown para convertê-lo para HTML.
+- Exemplo:
+
+```
+node cli/index.js exemplo.md resultado.html
+```
+
+- Ou use via pipeline:
+
+```
+echo "# Título" | node cli/index.js
+```
+
+### API REST
+- Faça requisição POST para `/convert` com JSON:
+
+```json
+{
+  "markdown": "# Seu Markdown aqui"
+}
+```
+
+- Receberá JSON com HTML convertido e sanitizado.
+
+## Estrutura do Projeto
+
+```
+project-root/
+│
+├── backend/                 # Código Python para API e conversão
+│   ├── converter/           # Módulo de conversão Markdown para HTML
+│   ├── api.py               # Servidor REST API Flask
+│   └── requirements.txt     # Dependências Python
+│
+├── cli/                    # Código CLI Node.js
+│
+├── frontend/                # Aplicação web React
+├── docs/                   # Documentação
+├── tests/                  # Testes automatizados
+├── README.md               # Documentação principal
+└── package.json            # Dependências Node.js
+```
+
+## Contribuição
+
+Sinta-se à vontade para contribuir! Seguem algumas orientações:
+
+- Abra issues para bugs ou sugestões.
+- Faça pull requests com explicações claras sobre suas mudanças.
+- Mantenha o padrão de código e inclua testes sempre que possível.
+- Utilize Python 3 para backend, JavaScript (Node.js ou React) para frontend e CLI.
+
+## Licença
+
+Este projeto está licenciado sob a Licença MIT. Consulte o arquivo LICENSE para mais detalhes.
 
 ---
 
-Enjoy playing the CLI Snake Game!
+Para dúvidas, acesse a seção de Troubleshooting no User Guide ou abra uma issue no repositório.

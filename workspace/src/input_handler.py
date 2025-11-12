@@ -1,37 +1,24 @@
-"""
-Input handler module.
-Captures keyboard events using Pygame and converts to direction commands for the snake.
-"""
 import pygame
-from src.config import UP, DOWN, LEFT, RIGHT
-
-KEY_DIRECTION_MAP = {
-    pygame.K_UP: UP,
-    pygame.K_w: UP,
-    pygame.K_DOWN: DOWN,
-    pygame.K_s: DOWN,
-    pygame.K_LEFT: LEFT,
-    pygame.K_a: LEFT,
-    pygame.K_RIGHT: RIGHT,
-    pygame.K_d: RIGHT
-}
+from src.constants import UP, DOWN, LEFT, RIGHT
 
 class InputHandler:
     def __init__(self):
-        self.direction = RIGHT  # Default direction
+        self.current_direction = RIGHT  # Default start moving right
 
-    def process_events(self):
-        """
-        Process Pygame events and update direction based on key presses.
-        Returns the new direction or None if no change.
-        """
-        new_direction = None
+    def get_latest_direction(self):
+        """Processes pygame events and updates the current direction.
+        Returns the direction as a tuple (dx, dy)."""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                return 'QUIT'
+                # Return None to indicate quit
+                return None
             elif event.type == pygame.KEYDOWN:
-                if event.key in KEY_DIRECTION_MAP:
-                    new_direction = KEY_DIRECTION_MAP[event.key]
-                elif event.key == pygame.K_ESCAPE:
-                    return 'QUIT'
-        return new_direction
+                if event.key == pygame.K_UP and self.current_direction != DOWN:
+                    self.current_direction = UP
+                elif event.key == pygame.K_DOWN and self.current_direction != UP:
+                    self.current_direction = DOWN
+                elif event.key == pygame.K_LEFT and self.current_direction != RIGHT:
+                    self.current_direction = LEFT
+                elif event.key == pygame.K_RIGHT and self.current_direction != LEFT:
+                    self.current_direction = RIGHT
+        return self.current_direction

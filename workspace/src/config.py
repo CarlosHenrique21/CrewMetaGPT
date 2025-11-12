@@ -1,38 +1,22 @@
-# Configuration constants for CLI Snake Game
+import os
 
-# Game window settings
-WINDOW_WIDTH = 600
-WINDOW_HEIGHT = 400
-CELL_SIZE = 20  # Size of each grid cell
+class Config:
+    """Configuration management for the CLI Weather Forecast Tool."""
 
-# Derived grid size
-GRID_WIDTH = WINDOW_WIDTH // CELL_SIZE
-GRID_HEIGHT = WINDOW_HEIGHT // CELL_SIZE
+    API_KEY = os.getenv("WEATHER_API_KEY", "")  # User must set this environment variable
+    BASE_URL = "https://api.openweathermap.org/data/2.5/"
+    DEFAULT_UNITS = "metric"  # 'metric' or 'imperial'
 
-# Colors (R, G, B)
-COLOR_BLACK = (0, 0, 0)
-COLOR_WHITE = (255, 255, 255)
-COLOR_RED = (255, 0, 0)
-COLOR_GREEN = (0, 255, 0)
-COLOR_DARK_GREEN = (0, 155, 0)
-COLOR_DARK_GREY = (40, 40, 40)
+    @classmethod
+    def get_api_key(cls):
+        if not cls.API_KEY:
+            raise ValueError("API key not set. Please set the WEATHER_API_KEY environment variable.")
+        return cls.API_KEY
 
-# Game settings
-FPS = 15
+    @classmethod
+    def get_base_url(cls):
+        return cls.BASE_URL
 
-# Directions
-UP = (0, -1)
-DOWN = (0, 1)
-LEFT = (-1, 0)
-RIGHT = (1, 0)
-
-# Controls mapping
-KEY_DIRECTION_MAP = {
-    'up': UP,
-    'down': DOWN,
-    'left': LEFT,
-    'right': RIGHT
-}
-
-# Highscore file
-HIGHSCORE_FILE = 'highscore.json'
+    @classmethod
+    def get_default_units(cls):
+        return cls.DEFAULT_UNITS

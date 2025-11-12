@@ -1,93 +1,65 @@
-from typing import Optional, Tuple, List
-from src.utils import get_random_position
+import random
+from src.constants import GRID_WIDTH, GRID_HEIGHT, STATE_RUNNING, STATE_GAMEOVER
 
 class GameEngine:
-    DIRECTIONS = {
-        'UP': (0, -1),
-        'DOWN': (0, 1),
-        'LEFT': (-1, 0),
-        'RIGHT': (1, 0),
-    }
+    def __init__(self):
+        self.reset()
 
-    def __init__(self, width=20, height=20):
-        self.width = width
-        self.height = height
-        self.reset_game()
-
-    def reset_game(self):
-        # Initialize snake in middle
-        mid_x = self.width // 2
-        mid_y = self.height // 2
-        self.snake: List[Tuple[int, int]] = [(mid_x, mid_y), (mid_x-1, mid_y), (mid_x-2, mid_y)]
-        self.direction = 'RIGHT'
-        self.food = self.spawn_food()
+    def reset(self):
+        # Initialize snake in middle of grid
+        self.snake = [(GRID_WIDTH // 2, GRID_HEIGHT // 2)]  # List of (x,y) tuples
+        self.direction = (1, 0)  # Default right
         self.score = 0
-        self.running = False
-        self.paused = False
-        self.game_over = False
+        self.spawn_food()
+        self.state = STATE_RUNNING
 
     def spawn_food(self):
-        exclude = set(self.snake)
-        return get_random_position(self.width, self.height, exclude)
+        # Spawn food in random position not occupied by snake
+        while True:
+            self.food = (random.randint(0, GRID_WIDTH - 1), random.randint(0, GRID_HEIGHT - 1))
+            if self.food not in self.snake:
+                break
 
-    def start(self):
-        if not self.running:
-            self.running = True
-            self.paused = False
-            self.game_over = False
-
-    def pause(self):
-        if self.running:
-            self.paused = not self.paused
-
-    def restart(self):
-        self.reset_game()
-        self.start()
-
-    def update(self, input_key: Optional[str]) -> None:
-        if input_key == 'QUIT':
-            self.running = False
+    def update(self, direction):
+        if self.state != STATE_RUNNING:
             return
 
-        if not self.running or self.game_over or self.paused:
-            # Only allow pause toggle or restart
-            if input_key == 'PAUSE':
-                self.pause()
-            elif input_key == 'RESTART':
-                self.restart()
-            return
+        # Update the direction with the given one
+        # Prevent reversing direction directly
+        if (direction[0] * -1, direction[1] * -1) != self.direction:
+            self.direction = direction
 
-        # Change direction if valid and not opposite
-        if input_key in self.DIRECTIONS:
-            opposite = {'UP': 'DOWN', 'DOWN': 'UP', 'LEFT': 'RIGHT', 'RIGHT': 'LEFT'}
-            if input_key != opposite[self.direction]:
-                self.direction = input_key
-
-        # Move snake
-        self.move_snake()
-
-    def move_snake(self):
         head_x, head_y = self.snake[0]
-        dx, dy = self.DIRECTIONS[self.direction]
+        dx, dy = self.direction
         new_head = (head_x + dx, head_y + dy)
 
-        # Check collisions
-        if (
-            new_head[0] < 0 or new_head[0] >= self.width or
-            new_head[1] < 0 or new_head[1] >= self.height or
-            new_head in self.snake
-        ):
-            self.game_over = True
-            self.running = False
+        # Check collisions with walls
+        if (new_head[0] < 0 or new_head[0] >= GRID_WIDTH or
+            new_head[1] < 0 or new_head[1] >= GRID_HEIGHT):
+            self.state = STATE_GAMEOVER
             return
 
-        # Add new head
+        # Check collision with self
+        if new_head in self.snake:
+            self.state = STATE_GAMEOVER
+            return
+
+        # Insert new head
         self.snake.insert(0, new_head)
 
         # Check if food eaten
         if new_head == self.food:
             self.score += 1
-            self.food = self.spawn_food()
+            self.spawn_food()
+            # Snake grows (do not remove tail)
         else:
-            # Remove tail
+            # Remove tail segment (snake moves)
             self.snake.pop()
+
+    def get_state(self):
+        return {
+            'snake': self.snake,
+            'food': self.food,
+            'score': self.score,
+            'state': self.state
+        }

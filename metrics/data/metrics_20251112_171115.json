@@ -1,0 +1,52 @@
+{
+  "session_id": "20251112_171115",
+  "session_duration": 778,
+  "summary": {
+    "total_queries": 0,
+    "total_retrievals": 1,
+    "total_llm_calls": 0,
+    "total_tool_calls": 1,
+    "total_agent_tasks": 0,
+    "avg_retrieval_latency": 0.6361448764801025,
+    "avg_llm_latency": 0.0,
+    "total_cost": 0.0,
+    "total_tokens": 0,
+    "throughput": 0
+  },
+  "detailed_metrics": {
+    "tool_efficiency": {
+      "retrieve_context": {
+        "total_calls": 1,
+        "successful_calls": 1,
+        "failed_calls": 0,
+        "total_duration": 0.6361448764801025,
+        "avg_duration": 0.6361448764801025,
+        "success_rate": 1.0
+      }
+    },
+    "agent_success_rates": {}
+  },
+  "raw_metrics": {
+    "retrieval_times": [
+      {
+        "retrieval_latency": 0.6361448764801025,
+        "num_documents_retrieved": 3,
+        "relevance_score": 0.5604102716636137,
+        "embedding_latency": 0.0,
+        "total_latency": 0.6361448764801025,
+        "timestamp": "2025-11-12T17:11:20.694938"
+      }
+    ],
+    "llm_calls": [],
+    "tool_usage": [
+      {
+        "tool_name": "retrieve_context",
+        "duration": 0.6361448764801025,
+        "success": true,
+        "timestamp": "2025-11-12T17:11:20.694990"
+      }
+    ],
+    "agent_performance": [],
+    "throughput": []
+  }
+}
