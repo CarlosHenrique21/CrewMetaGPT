@@ -1,0 +1,18 @@
+# CrewAI Project Requirements
+# Core dependencies
+crewai>=0.86.0
+crewai-tools>=0.17.0
+agentops>=0.3.14
+
+# LLM providers
+openai>=1.0.0
+langchain>=0.1.0
+langchain-openai>=0.0.5
+
+# Utilities
+python-dotenv>=1.0.0
+pydantic>=2.0.0
+tenacity>=8.2.0
+
+# Optional but useful
+rich>=13.0.0  # Better terminal output

@@ -1,0 +1,184 @@
+{
+  "test_prompts": [
+    {
+      "id": 1,
+      "category": "CLI Tools",
+      "name": "Calculator CLI",
+      "prompt": "Create a simple calculator CLI tool that supports basic arithmetic operations (addition, subtraction, multiplication, division) and handles errors gracefully",
+      "expected_files": [
+        "prd.md",
+        "architecture.md",
+        "calculator.py",
+        "test_plan.md",
+        "test_cases.md",
+        "README.md",
+        "user_guide.md"
+      ]
+    },
+    {
+      "id": 2,
+      "category": "CLI Tools",
+      "name": "Todo List Manager",
+      "prompt": "Create a command-line todo list manager with features to add, remove, list, and mark tasks as complete. Store tasks in a JSON file",
+      "expected_files": [
+        "prd.md",
+        "architecture.md",
+        "todo_manager.py",
+        "test_plan.md",
+        "test_cases.md",
+        "README.md",
+        "user_guide.md"
+      ]
+    },
+    {
+      "id": 3,
+      "category": "Web API",
+      "name": "REST API for Books",
+      "prompt": "Create a RESTful API for managing a book library with endpoints for creating, reading, updating, and deleting books. Use FastAPI and include SQLite database",
+      "expected_files": [
+        "prd.md",
+        "architecture.md",
+        "main.py",
+        "models.py",
+        "database.py",
+        "test_plan.md",
+        "test_cases.md",
+        "README.md",
+        "user_guide.md"
+      ]
+    },
+    {
+      "id": 4,
+      "category": "Games",
+      "name": "Tic-Tac-Toe Game",
+      "prompt": "Create a tic-tac-toe game with a simple CLI interface supporting two players on the same device, with win/draw detection and game restart functionality",
+      "expected_files": [
+        "prd.md",
+        "architecture.md",
+        "tic_tac_toe.py",
+        "game_logic.py",
+        "test_plan.md",
+        "test_cases.md",
+        "README.md",
+        "user_guide.md"
+      ]
+    },
+    {
+      "id": 5,
+      "category": "Games",
+      "name": "Number Guessing Game",
+      "prompt": "Create a number guessing game where the computer picks a random number and the player tries to guess it with hints (higher/lower). Track attempts and score",
+      "expected_files": [
+        "prd.md",
+        "architecture.md",
+        "guessing_game.py",
+        "test_plan.md",
+        "test_cases.md",
+        "README.md",
+        "user_guide.md"
+      ]
+    },
+    {
+      "id": 6,
+      "category": "Data Tools",
+      "name": "CSV Data Analyzer",
+      "prompt": "Create a CSV data analyzer tool that can read CSV files, display statistics (mean, median, mode), filter data, and export results. Include data visualization with matplotlib",
+      "expected_files": [
+        "prd.md",
+        "architecture.md",
+        "csv_analyzer.py",
+        "statistics.py",
+        "visualization.py",
+        "test_plan.md",
+        "test_cases.md",
+        "README.md",
+        "user_guide.md"
+      ]
+    },
+    {
+      "id": 7,
+      "category": "Web Scraper",
+      "name": "News Scraper",
+      "prompt": "Create a web scraper that extracts news headlines and summaries from a news website, stores them in JSON format, and provides search functionality. Use BeautifulSoup",
+      "expected_files": [
+        "prd.md",
+        "architecture.md",
+        "scraper.py",
+        "parser.py",
+        "storage.py",
+        "test_plan.md",
+        "test_cases.md",
+        "README.md",
+        "user_guide.md"
+      ]
+    },
+    {
+      "id": 8,
+      "category": "Automation",
+      "name": "File Organizer",
+      "prompt": "Create a file organizer that automatically sorts files in a directory into subfolders based on file type (documents, images, videos, etc.) with undo functionality",
+      "expected_files": [
+        "prd.md",
+        "architecture.md",
+        "file_organizer.py",
+        "file_classifier.py",
+        "test_plan.md",
+        "test_cases.md",
+        "README.md",
+        "user_guide.md"
+      ]
+    },
+    {
+      "id": 9,
+      "category": "Web Application",
+      "name": "URL Shortener",
+      "prompt": "Create a URL shortener web application with Flask that generates short URLs, stores mappings in SQLite, and redirects to original URLs. Include analytics for click tracking",
+      "expected_files": [
+        "prd.md",
+        "architecture.md",
+        "app.py",
+        "models.py",
+        "database.py",
+        "templates/index.html",
+        "test_plan.md",
+        "test_cases.md",
+        "README.md",
+        "user_guide.md"
+      ]
+    },
+    {
+      "id": 10,
+      "category": "Chatbot",
+      "name": "Simple Chatbot",
+      "prompt": "Create a rule-based chatbot CLI that can answer FAQs about a product/service, handle greetings, and provide helpful responses. Include conversation logging and sentiment detection",
+      "expected_files": [
+        "prd.md",
+        "architecture.md",
+        "chatbot.py",
+        "rules.py",
+        "conversation_logger.py",
+        "test_plan.md",
+        "test_cases.md",
+        "README.md",
+        "user_guide.md"
+      ]
+    }
+  ],
+  "usage_instructions": {
+    "description": "Test prompts for CrewAI Software Development Crew",
+    "how_to_use": "python main.py \"<prompt from above>\"",
+    "example": "python main.py \"Create a simple calculator CLI tool that supports basic arithmetic operations\"",
+    "expected_output_location": "workspace/",
+    "agentops_dashboard": "https://app.agentops.ai"
+  },
+  "categories": {
+    "CLI Tools": "Command-line interface applications",
+    "Web API": "RESTful APIs and backend services",
+    "Games": "Simple game implementations",
+    "Data Tools": "Data analysis and processing tools",
+    "Web Scraper": "Web scraping applications",
+    "Automation": "File and task automation tools",
+    "Web Application": "Full-stack web applications",
+    "Chatbot": "Conversational AI applications"
+  }
+}
