@@ -1,0 +1,9 @@
+{
+  "project_id": "project_01",
+  "project_name": "Todo List CLI",
+  "status": "success",
+  "duration_seconds": 1101.64,
+  "timestamp": "2025-11-13T03:09:57.958098",
+  "approach": "crewai_dspy_hybrid",
+  "note": "CrewAI framework + DSPy manual few-shot + RAG + AgentOps"
+}

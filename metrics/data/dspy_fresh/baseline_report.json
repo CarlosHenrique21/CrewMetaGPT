@@ -1,0 +1,74 @@
+{
+  "test_type": "baseline_dspy_fresh",
+  "test_date": "2025-11-13T01:17:52.358169",
+  "total_projects": 5,
+  "successful": 5,
+  "failed": 0,
+  "total_duration_seconds": 76.79,
+  "aggregated_metrics": {
+    "total_cost_usd": 0.0,
+    "avg_cost_per_project_usd": 0.0,
+    "total_tokens": 0,
+    "avg_tokens_per_project": 0,
+    "total_llm_calls": 0,
+    "avg_llm_calls_per_project": 0,
+    "avg_duration_per_project_seconds": 15.36
+  },
+  "projects": [
+    {
+      "project_id": "project_01",
+      "project_name": "Todo List CLI",
+      "status": "success",
+      "duration_seconds": 3.61,
+      "cost_usd": 0.0,
+      "tokens_used": 0,
+      "llm_calls": 0,
+      "timestamp": "2025-11-13T01:16:19.168280",
+      "note": "Metrics tracked by AgentOps - check dashboard"
+    },
+    {
+      "project_id": "project_02",
+      "project_name": "URL Shortener API",
+      "status": "success",
+      "duration_seconds": 1.7,
+      "cost_usd": 0.0,
+      "tokens_used": 0,
+      "llm_calls": 0,
+      "timestamp": "2025-11-13T01:16:25.872688",
+      "note": "Metrics tracked by AgentOps - check dashboard"
+    },
+    {
+      "project_id": "project_03",
+      "project_name": "Weather CLI",
+      "status": "success",
+      "duration_seconds": 2.33,
+      "cost_usd": 0.0,
+      "tokens_used": 0,
+      "llm_calls": 0,
+      "timestamp": "2025-11-13T01:16:33.202643",
+      "note": "Metrics tracked by AgentOps - check dashboard"
+    },
+    {
+      "project_id": "project_04",
+      "project_name": "Password Generator",
+      "status": "success",
+      "duration_seconds": 3.07,
+      "cost_usd": 0.0,
+      "tokens_used": 0,
+      "llm_calls": 0,
+      "timestamp": "2025-11-13T01:16:41.275326",
+      "note": "Metrics tracked by AgentOps - check dashboard"
+    },
+    {
+      "project_id": "project_05",
+      "project_name": "Markdown to HTML Converter",
+      "status": "success",
+      "duration_seconds": 66.08,
+      "cost_usd": 0.0,
+      "tokens_used": 0,
+      "llm_calls": 0,
+      "timestamp": "2025-11-13T01:17:52.356685",
+      "note": "Metrics tracked by AgentOps - check dashboard"
+    }
+  ]
+}

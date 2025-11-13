@@ -1,68 +1,79 @@
-# Markdown to HTML Converter Documentation
+# Markdown to HTML Converter
+A web-based application that converts Markdown formatted text into HTML.
 
-## Table of Contents
-- [Project Overview](#project-overview)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Features](#features)
-- [Technology Stack](#technology-stack)
-- [File Structure](#file-structure)
-- [Contributing](#contributing)
-- [License](#license)
+## Features
+- Convert Markdown titles (H1, H2, H3) to corresponding HTML tags.
+- Convert Markdown lists (ordered and unordered) to HTML lists.
+- Convert Markdown links to HTML anchor tags.
+- Display the converted HTML output in real-time.
+- Download the converted HTML as a .html file.
+- Reset input and output areas.
 
-## Project Overview
-The Markdown to HTML Converter is a tool designed to convert Markdown text into HTML format, supporting titles, lists, and links. This project is aimed at developers, writers, and content creators who want to publish web content with ease.
-
-## Installation
-To set up the Markdown to HTML Converter on your local machine, follow these steps:
-
+## Installation Instructions
 1. Clone the repository:
    ```bash
    git clone https://github.com/yourusername/markdown-to-html-converter.git
    cd markdown-to-html-converter
    ```
-
-2. Install the dependencies:
+2. Install dependencies:
    ```bash
    npm install
    ```
-
-3. Start the server:
+3. Start the application:
    ```bash
-   node src/server.js
+   npm start
    ```
 
-4. Open your browser and go to `http://localhost:3000`.
+## Usage Example
+1. Open the application in your web browser.
+2. Enter Markdown text in the input area.
+3. Observe the HTML output appear in real-time.
+4. Click the 'Download' button to save your HTML output as a .html file.
 
-## Usage
-To use the Markdown to HTML Converter, simply enter your Markdown text in the provided text area on the web page and click the "Convert" button. The converted HTML will be displayed in the output section.
-
-## Features
-- **Title Support**: Convert Markdown titles to HTML header tags.
-- **List Support**: Convert ordered and unordered lists.
-- **Link Support**: Convert Markdown links to HTML anchor tags.
-- **User-friendly Interface**: Simple and intuitive UI for easy interaction.
-
-## Technology Stack
-- **Frontend**: HTML, CSS, JavaScript
-- **Backend**: Node.js
-- **Libraries**: 
-  - `markdown-it`: A markdown parser and compiler for JavaScript.
-
-## File Structure
+## Project Structure
 ```
-/markdown-to-html-converter
-|-- /public                # Static files for the frontend
-|   |-- index.html         # Main HTML file
-|   |-- styles.css         # CSS styles for the UI
-|   |-- app.js             # Frontend JavaScript
-|-- /src                   # Source files for the backend
-|   |-- server.js          # Entry point for the Node.js server
-|   |-- markdownParser.js   # Module for parsing Markdown
+markdown_to_html_converter/
+├── src/
+│   ├── components/
+│   │   ├── MarkdownInput.jsx    # Component for Markdown input
+│   │   ├── HtmlOutput.jsx        # Component for displaying HTML output
+│   │   └── PreviewButton.jsx      # Button for triggering the conversion
+│   ├── services/
+│   │   └── ConverterService.js    # Business logic for input validation and conversion
+│   ├── utils/
+│   │   └── MarkdownParser.js       # Custom Markdown parsing logic
+│   ├── App.jsx                    # Main application component
+│   └── index.js                   # Application entry point
+├── tests/
+│   ├── ConverterService.test.js    # Unit tests for ConverterService
+│   ├── MarkdownParser.test.js      # Unit tests for MarkdownParser
+│   └── App.test.js                # Unit tests for App component
+├── package.json                    # Project metadata and dependencies
+└── README.md                       # Project documentation
 ```
 
-## Contributing
-Contributions are welcome! Please submit a pull request or open an issue to discuss changes.
+## Testing Instructions
+- Run unit tests:
+  ```bash
+  npm test
+  ```
+- Ensure at least 80% code coverage.
+
+## Contributing Guidelines
+1. Fork the repository.
+2. Create a new branch:
+   ```bash
+   git checkout -b feature/your-feature
+   ```
+3. Make your changes and commit them:
+   ```bash
+   git commit -m "Add your feature"
+   ```
+4. Push to the branch:
+   ```bash
+   git push origin feature/your-feature
+   ```
+5. Create a pull request.
 
 ## License
-This project is licensed under the MIT License. See the LICENSE file for more details.
+MIT License.
