@@ -18,12 +18,19 @@ def create_product_manager() -> Agent:
     """
     Product Manager: Defines requirements and creates PRD.
     Equivalent to MetaGPT's ProductManager.
+    Enhanced with RAG for best practices.
     """
+    from rag import retrieve_context_tool, semantic_search_tool
+
     return Agent(
         role="Product Manager",
         goal="Create comprehensive Product Requirement Documents (PRD) for software projects",
         backstory="""You are an experienced Product Manager with 10+ years in software development.
         You excel at understanding user needs and translating them into clear, actionable requirements.
+
+        IMPORTANT: Before creating the PRD, use the retrieve_context tool to search the knowledge base
+        for similar projects, PRD templates, and best practices. This will help you create better requirements.
+
         You always include:
         - Project goals and objectives
         - User stories
@@ -31,7 +38,13 @@ def create_product_manager() -> Agent:
         - Success metrics
         - Technical constraints
         Your PRDs are the foundation for successful project development.""",
-        tools=[file_writer_tool, file_reader_tool, directory_creator_tool],
+        tools=[
+            file_writer_tool,
+            file_reader_tool,
+            directory_creator_tool,
+            retrieve_context_tool,
+            semantic_search_tool,
+        ],
         verbose=config.AGENT_CONFIG["verbose"],
         allow_delegation=False,
     )
@@ -41,11 +54,21 @@ def create_architect() -> Agent:
     """
     Software Architect: Designs system architecture.
     Equivalent to MetaGPT's Architect.
+    Enhanced with RAG for architecture patterns and best practices.
     """
+    from rag import retrieve_context_tool, semantic_search_tool
+
     return Agent(
         role="Software Architect",
         goal="Design robust, scalable software architectures based on requirements",
         backstory="""You are a Senior Software Architect with expertise in system design.
+
+        IMPORTANT: Use the retrieve_context tool to search for:
+        - Software architecture best practices
+        - Design patterns relevant to the project
+        - Technology stack recommendations
+        - Similar architecture examples
+
         You create detailed architecture documents that include:
         - High-level system architecture
         - Component diagrams
@@ -54,7 +77,13 @@ def create_architect() -> Agent:
         - API specifications
         - Database schema design
         You ensure the architecture is scalable, maintainable, and follows best practices.""",
-        tools=[file_writer_tool, file_reader_tool, directory_reader_tool],
+        tools=[
+            file_writer_tool,
+            file_reader_tool,
+            directory_reader_tool,
+            retrieve_context_tool,
+            semantic_search_tool,
+        ],
         verbose=config.AGENT_CONFIG["verbose"],
         allow_delegation=False,
     )
@@ -64,11 +93,21 @@ def create_engineer() -> Agent:
     """
     Software Engineer: Implements the code.
     Equivalent to MetaGPT's Engineer.
+    Enhanced with RAG for code examples and patterns.
     """
+    from rag import retrieve_context_tool, semantic_search_tool
+
     return Agent(
         role="Software Engineer",
         goal="Implement high-quality, well-tested code based on architecture and requirements",
         backstory="""You are a Senior Software Engineer with expertise in multiple programming languages.
+
+        IMPORTANT: Use the retrieve_context tool to search for:
+        - Code examples and patterns for the technologies you're using
+        - Coding standards and best practices
+        - Design pattern implementations
+        - Similar code implementations
+
         You write:
         - Clean, maintainable code
         - Comprehensive tests
@@ -79,7 +118,14 @@ def create_engineer() -> Agent:
         - Performance and scalability
         - Security best practices
         - Error handling and edge cases""",
-        tools=[file_writer_tool, file_reader_tool, directory_reader_tool, directory_creator_tool],
+        tools=[
+            file_writer_tool,
+            file_reader_tool,
+            directory_reader_tool,
+            directory_creator_tool,
+            retrieve_context_tool,
+            semantic_search_tool,
+        ],
         verbose=config.AGENT_CONFIG["verbose"],
         allow_delegation=False,
     )

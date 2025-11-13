@@ -1,134 +1,115 @@
 import unittest
 from unittest.mock import patch, mock_open
-import os
-from src.snake import Snake
-from src.food import Food
-from src.score import Score
-from src.game import Game
-from src.config import GRID_WIDTH, GRID_HEIGHT
+import builtins
+import sys
+import io
 
-class TestSnake(unittest.TestCase):
-    def setUp(self):
-        self.snake = Snake([(5,5), (4,5), (3,5)])
+from src import utils, generator, entropy, output
 
-    def test_initial_head_position(self):
-        self.assertEqual(self.snake.get_head_position(), (5,5))
+class TestUtils(unittest.TestCase):
+    def test_validate_length(self):
+        self.assertFalse(utils.validate_length(7))
+        self.assertTrue(utils.validate_length(8))
+        self.assertTrue(utils.validate_length(64))
+        self.assertFalse(utils.validate_length(65))
 
-    def test_turn_valid_and_reverse(self):
-        self.snake.turn((0, -1))  # turn up
-        self.assertEqual(self.snake.direction, (0, -1))
-        self.snake.turn((0, 1))  # attempt reverse down - should ignore
-        self.assertEqual(self.snake.direction, (0, -1))
+    def test_validate_strength(self):
+        self.assertTrue(utils.validate_strength('weak'))
+        self.assertTrue(utils.validate_strength('medium'))
+        self.assertTrue(utils.validate_strength('strong'))
+        self.assertFalse(utils.validate_strength('invalid'))
 
-    def test_move_without_growth(self):
-        initial_length = len(self.snake.positions)
-        head_before = self.snake.get_head_position()
-        self.snake.move()
-        head_after = self.snake.get_head_position()
-        self.assertEqual(len(self.snake.positions), initial_length)
-        self.assertNotEqual(head_before, head_after)
+class TestGenerator(unittest.TestCase):
+    def test_generate_password_valid(self):
+        pwd = generator.generate_password(12, 'medium', include_special=False)
+        self.assertEqual(len(pwd), 12)
+        # medium includes lower, upper and digits
+        self.assertTrue(any(c.islower() for c in pwd))
+        self.assertTrue(any(c.isupper() for c in pwd))
+        self.assertTrue(any(c.isdigit() for c in pwd))
 
-    def test_grow(self):
-        self.snake.grow()
-        initial_length = len(self.snake.positions)
-        self.snake.move()
-        self.assertEqual(len(self.snake.positions), initial_length + 1)
+    def test_generate_password_special_chars(self):
+        pwd = generator.generate_password(10, 'weak', include_special=True)
+        self.assertEqual(len(pwd), 10)
+        # weak is only lowercase + special chars
+        self.assertTrue(all(c.islower() or c in generator.SPECIAL_CHARACTERS for c in pwd))
 
-    def test_self_collision_check(self):
-        # Create collision by positions
-        self.snake.positions = [(2,2), (2,3), (3,3), (3,2), (2,2)]
-        self.assertTrue(self.snake.check_self_collision())
+    def test_generate_password_length_too_short(self):
+        with self.assertRaises(ValueError):
+            generator.generate_password(7, 'medium', False)
 
-class TestFood(unittest.TestCase):
-    @patch('random.choice')
-    def test_spawn_food_free_space(self, mock_choice):
-        snake_positions = [(0, 0), (1, 0)]
-        available_positions = [(x, y) for x in range(GRID_WIDTH) for y in range(GRID_HEIGHT) if (x,y) not in snake_positions]
-        mock_choice.side_effect = lambda x: x[0]
-        food = Food(snake_positions)
-        self.assertIn(food.position, available_positions)
+    def test_generate_password_length_too_long(self):
+        with self.assertRaises(ValueError):
+            generator.generate_password(65, 'medium', False)
 
-    def test_spawn_no_space(self):
-        # All positions are taken
-        snake_positions = [(x, y) for x in range(GRID_WIDTH) for y in range(GRID_HEIGHT)]
-        food = Food(snake_positions)
-        self.assertIsNone(food.position)
+    def test_generate_password_invalid_strength(self):
+        with self.assertRaises(ValueError):
+            generator.generate_password(12, 'invalid', False)
 
-class TestScore(unittest.TestCase):
-    def test_increase_and_reset(self):
-        score = Score()
-        score.increase(3)
-        self.assertEqual(score.current_score, 3)
-        score.reset()
-        self.assertEqual(score.current_score, 0)
+    def test_generate_multiple_passwords(self):
+        pwds = generator.generate_multiple_passwords(3, 8, 'weak', False)
+        self.assertEqual(len(pwds), 3)
+        for pwd in pwds:
+            self.assertEqual(len(pwd), 8)
 
-    @patch('builtins.open', new_callable=mock_open, read_data='{"high_score": 10}')
-    def test_load_high_score_valid(self, mock_file):
-        score = Score()
-        score.load_high_score()
-        self.assertEqual(score.high_score, 10)
+    def test_generate_multiple_passwords_invalid_count(self):
+        with self.assertRaises(ValueError):
+            generator.generate_multiple_passwords(0, 12, 'medium', False)
 
-    @patch('builtins.open', new_callable=mock_open)
-    def test_save_high_score(self, mock_file):
-        score = Score()
-        score.high_score = 5
-        score.current_score = 10
-        score.save_high_score()
-        mock_file.assert_called_once_with('highscore.json', 'w')
+class TestEntropy(unittest.TestCase):
+    def test_entropy_empty(self):
+        self.assertEqual(entropy.estimate_entropy(''), 0.0)
 
-    @patch('builtins.open', side_effect=IOError)
-    def test_save_high_score_ioerror(self, mock_file):
-        score = Score()
-        score.high_score = 0
-        score.current_score = 10
-        # Should handle IOError gracefully
-        try:
-            score.save_high_score()
-        except Exception:
-            self.fail("save_high_score raised exception unexpectedly")
+    def test_entropy_various(self):
+        low = 'a' * 10
+        med = 'aA1' * 4
+        high = 'aA1!' * 4
+        self.assertTrue(entropy.estimate_entropy(low) < entropy.estimate_entropy(med))
+        self.assertTrue(entropy.estimate_entropy(med) < entropy.estimate_entropy(high))
 
-class TestGame(unittest.TestCase):
-    def setUp(self):
-        self.game = Game()
+class TestOutput(unittest.TestCase):
+    def test_output_console(self):
+        passwords = ['password1', 'password2']
+        captured = io.StringIO()
+        sys.stdout = captured
+        output.output_passwords(passwords, output_mode='console')
+        sys.stdout = sys.__stdout__
+        output_text = captured.getvalue()
+        self.assertIn('Password 1: password1', output_text)
+        self.assertIn('Password 2: password2', output_text)
 
-    def test_initial_state(self):
-        self.assertFalse(self.game.is_game_over())
-        self.assertGreater(len(self.game.get_snake_positions()), 0)
-        self.assertIsNotNone(self.game.get_food_position())
+    def test_output_file(self):
+        passwords = ['pass1', 'pass2']
+        m = mock_open()
+        with patch('builtins.open', m):
+            output.output_passwords(passwords, output_mode='file', output_path='dummy.txt')
+        m.assert_called_once_with('dummy.txt', 'w', encoding='utf-8')
+        handle = m()
+        handle.write.assert_any_call('pass1' + '\n')
+        handle.write.assert_any_call('pass2' + '\n')
 
-    def test_game_update_moves_snake(self):
-        head_before = self.game.get_snake_positions()[0]
-        self.game.update(None)  # move forward
-        head_after = self.game.get_snake_positions()[0]
-        self.assertNotEqual(head_before, head_after)
+    def test_output_invalid_mode(self):
+        with self.assertRaises(ValueError):
+            output.output_passwords(['pwd'], output_mode='invalid')
 
-    def test_boundary_collision_sets_game_over(self):
-        # Move snake head outside boundaries manually
-        self.game.snake.positions[0] = (GRID_WIDTH, GRID_HEIGHT)
-        self.game.update(None)
-        self.assertTrue(self.game.is_game_over())
+    def test_output_file_no_path(self):
+        with self.assertRaises(ValueError):
+            output.output_passwords(['pwd'], output_mode='file')
 
-    def test_self_collision_sets_game_over(self):
-        self.game.snake.positions = [(5,5), (5,6), (6,6), (6,5), (5,5)]
-        self.game.update(None)
-        self.assertTrue(self.game.is_game_over())
+    @patch('src.output.PYPERCLIP_AVAILABLE', True)
+    @patch('src.output.pyperclip.copy')
+    def test_output_clipboard_success(self, mock_copy):
+        output.output_passwords(['pwd1'], copy_to_clipboard=True)
+        mock_copy.assert_called_once_with('pwd1')
 
-    def test_eating_food_increases_score_and_grows(self):
-        head = self.game.get_snake_positions()[0]
-        self.game.food.position = head  # place food on head (simulate eating)
-        score_before = self.game.get_score()
-        length_before = len(self.game.get_snake_positions())
-        self.game.update(None)
-        self.assertEqual(self.game.get_score(), score_before + 1)
-        self.assertGreater(len(self.game.get_snake_positions()), length_before)
-
-    def test_reset(self):
-        self.game.game_over = True
-        self.game.score.increase(5)
-        self.game.reset()
-        self.assertFalse(self.game.is_game_over())
-        self.assertEqual(self.game.get_score(), 0)
-
+    @patch('src.output.PYPERCLIP_AVAILABLE', False)
+    def test_output_clipboard_unavailable(self):
+        captured = io.StringIO()
+        sys.stdout = captured
+        output.output_passwords(['pwd1'], copy_to_clipboard=True)
+        sys.stdout = sys.__stdout__
+        output_text = captured.getvalue()
+        self.assertIn('Clipboard copy requested but pyperclip is not installed.', output_text)
 
 if __name__ == '__main__':
     unittest.main()

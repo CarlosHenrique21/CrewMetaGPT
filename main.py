@@ -1,16 +1,18 @@
 #!/usr/bin/env python3
 # main.py
 """
-Main entry point for CrewAI Software Company with AgentOps observability.
+Main entry point for CrewAI Software Company with AgentOps observability and RAG.
 
 This demonstrates how simple it is to have full observability with CrewAI:
 - Agents are tracked as "Agent" type ✅
 - Tasks are tracked as "Task" type ✅
 - Tools are tracked as "Tool" type ✅
 - LLM calls are tracked as "LLM" type ✅
+- RAG retrieval is tracked ✅
 - No custom wrappers needed!
 """
 import sys
+from pathlib import Path
 from dotenv import load_dotenv
 load_dotenv(override=True)
 
@@ -25,6 +27,10 @@ from crewai import Agent, Task, Crew
 import agentops
 from crew import run_software_dev_crew
 import config
+
+# Import RAG and metrics
+from rag import setup_knowledge_base
+from metrics import get_tracker, reset_tracker
 
 def initialize_observability():
     """Initialize AgentOps observability."""
@@ -55,17 +61,53 @@ def initialize_observability():
         return False
 
 
+def initialize_rag():
+    """Initialize RAG system with knowledge base."""
+    print("🔍 Initializing RAG System...")
+
+    kb_path = Path("knowledge_base")
+    if not kb_path.exists():
+        print("⚠️  Knowledge base directory not found - RAG will not be available")
+        return False
+
+    try:
+        # Setup knowledge base
+        vector_store = setup_knowledge_base(str(kb_path))
+        stats = vector_store.get_stats()
+
+        print("✅ RAG System initialized successfully!")
+        print(f"📚 Knowledge Base Stats:")
+        print(f"   - Documents loaded: {stats['total_documents']}")
+        print(f"   - Embedding model: {stats['embedding_model']}")
+        print(f"   - Vector dimension: {stats['dimension']}")
+        print()
+
+        return True
+    except Exception as e:
+        print(f"⚠️  Failed to initialize RAG: {e}")
+        print("Continuing without RAG - agents will work with base knowledge only")
+        return False
+
+
 def main(project_idea: str):
     """Main execution function."""
 
     print()
     print("=" * 80)
-    print("🎯 CrewAI Software Company with AgentOps Observability")
+    print("🎯 CrewAI Software Company with RAG + AgentOps Observability")
     print("=" * 80)
+    print()
+
+    # Initialize metrics tracker
+    tracker = reset_tracker()
+    print("📊 Metrics tracking initialized")
     print()
 
     # Initialize observability
     observability_enabled = initialize_observability()
+
+    # Initialize RAG
+    rag_enabled = initialize_rag()
 
     try:
         # Run the crew
@@ -89,6 +131,17 @@ def main(project_idea: str):
         print("   - user_guide.md (User Guide)")
         print()
 
+        # Print metrics summary
+        print("\n" + "=" * 80)
+        print("📊 METRICS SUMMARY")
+        print("=" * 80)
+        tracker.print_summary()
+
+        # Save metrics to file
+        metrics_file = tracker.save_metrics()
+        print(f"\n💾 Metrics saved to: {metrics_file}")
+        print()
+
         if observability_enabled:
             print("📊 Check your AgentOps dashboard for detailed analytics:")
             print("   https://app.agentops.ai")
@@ -98,6 +151,8 @@ def main(project_idea: str):
             print("   ✅ Tasks (correctly classified as 'Task')")
             print("   ✅ Tools (correctly classified as 'Tool')")
             print("   ✅ LLM Calls (correctly classified as 'LLM')")
+            if rag_enabled:
+                print("   ✅ RAG Retrievals (tracked in metrics)")
             print("   ✅ Complete timeline and hierarchy")
             print("   ✅ Costs and token usage")
             print()

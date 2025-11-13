@@ -9,11 +9,13 @@
 Sistema multi-agente de desenvolvimento de software usando **CrewAI** com:
 - ✅ **5 Agentes Especializados** (PM, Architect, Engineer, QA, Tech Writer)
 - 🔍 **RAG (Retrieval-Augmented Generation)** com base de conhecimento
+- 🔧 **Otimização com DSPy** (Stanford) para prompts e pipeline
 - 📊 **Sistema Completo de Métricas** (latência, tokens, custos, throughput)
 - 🎯 **Observabilidade com AgentOps**
 - 📚 **Base de Conhecimento** com templates e best practices
+- 📈 **3 Baselines Comparáveis** (SEM RAG, COM RAG, COM RAG + DSPy)
 
-Este projeto demonstra como criar um sistema de agentes que colaboram para desenvolver software completo, desde a especificação até a documentação, usando RAG para enriquecer as respostas com contexto relevante.
+Este projeto demonstra como criar um sistema de agentes que colaboram para desenvolver software completo, desde a especificação até a documentação, usando RAG para enriquecer as respostas com contexto relevante e DSPy para otimizar automaticamente todo o pipeline.
 
 ---
 
@@ -35,6 +37,14 @@ Este projeto demonstra como criar um sistema de agentes que colaboram para desen
   - Templates de documentação
   - Exemplos de código Python
 - Tools especializadas para recuperação de contexto
+
+### Otimização com DSPy (Stanford)
+- **Pipeline end-to-end otimizável** com agentes como DSPy Modules
+- **Prompts otimizados automaticamente** usando compiladores DSPy
+- **RAG otimizado**: queries e prompts aprendidos juntos
+- **Treinamento com baselines anteriores** para melhoria contínua
+- **Métricas customizadas** (qualidade + custo + performance)
+- **3 Compiladores disponíveis**: BootstrapFewShot, MIPRO, COPRO
 
 ### Métricas e Observabilidade
 - Rastreamento de latência por etapa
@@ -176,52 +186,122 @@ Métricas disponíveis:
 - 🚀 Throughput (queries/minuto)
 - 🔧 Eficiência de tools
 
+### Comparação de 3 Baselines: SEM RAG vs COM RAG vs COM RAG + DSPy
+
+Este projeto permite comparar **3 configurações diferentes** do sistema:
+
+**1️⃣ Baseline SEM RAG (baseline puro):**
+```bash
+./scripts/run_baseline_no_rag.sh
+```
+
+**2️⃣ Baseline COM RAG (RAG integrado):**
+```bash
+./scripts/run_baseline_test.sh
+```
+
+**3️⃣ Baseline COM RAG + DSPy (otimizado):**
+```bash
+# Opcional: Treinar pipeline primeiro
+python scripts/train_dspy_optimizer.py
+
+# Executar baseline otimizado
+./scripts/run_baseline_dspy.sh
+```
+
+**Comparar os 3 Baselines:**
+```bash
+# Comparação completa dos 3
+python scripts/compare_all_baselines.py
+
+# Ou comparar apenas 2
+python scripts/compare_baselines.py  # COM RAG vs SEM RAG
+```
+
+O script de comparação completa mostra:
+- 💰 Diferença de custos entre os 3 baselines
+- 🎫 Diferença de uso de tokens
+- ⏱️ Diferença de performance (tempo)
+- 📞 Diferença de chamadas LLM
+- 🏆 Recomendação baseada em dados
+- 📊 Análise detalhada por projeto
+
+**Documentação completa**:
+- [docs/BASELINE_COMPARISON.md](docs/BASELINE_COMPARISON.md) - Comparação COM vs SEM RAG
+- [docs/DSPY_OPTIMIZATION.md](docs/DSPY_OPTIMIZATION.md) - Por que DSPy é superior
+
 ---
 
 ## 📂 Estrutura do Projeto
 
+> 📋 **Veja estrutura completa em**: [STRUCTURE.md](STRUCTURE.md)
+
 ```
 CrewAI-Project/
-├── main.py                  # Ponto de entrada principal
-├── agents.py                # Definições dos agentes
-├── tasks.py                 # Definições das tasks
-├── tools.py                 # Tools customizadas
-├── crew.py                  # Configuração do crew
-├── config.py                # Configurações gerais
-├── quick_test.sh            # Script de teste rápido
-├── requirements.txt         # Dependências Python
-├── .env                     # Variáveis de ambiente
+├── 📄 Core Files
+│   ├── main.py                  # Ponto de entrada principal
+│   ├── agents.py                # Definições dos agentes
+│   ├── tasks.py                 # Definições das tasks
+│   ├── tools.py                 # Tools customizadas
+│   ├── crew.py                  # Configuração do crew
+│   ├── config.py                # Configurações gerais
+│   ├── requirements.txt         # Dependências Python
+│   ├── .env                     # Variáveis de ambiente
+│   └── quick_test.sh            # Script de teste rápido
 │
-├── rag/                     # Sistema RAG
+├── 📚 docs/                     # Documentação
+│   ├── PLANO_ESTUDO_RAG_METRICAS.md    # Plano de estudo completo
+│   ├── RAG_INTEGRATION.md              # Como o RAG funciona
+│   ├── BASELINE_TEST_GUIDE.md          # Guia de testes baseline
+│   ├── QUICK_START_TESTS.md            # Resumo de scripts
+│   ├── SETUP_COMPLETO.md               # Setup detalhado
+│   ├── TRACKING_STATUS_REPORT.md       # Status do tracking
+│   └── ... (outros docs)
+│
+├── 🧪 tests/                    # Scripts de teste
+│   ├── test_baseline.py         # Teste baseline (5 projetos)
+│   ├── test_rag_setup.py        # Teste do RAG isolado
+│   ├── test_rag_integration.py  # Teste de integração RAG
+│   ├── test_crewai_tracking.py  # Teste de tracking
+│   └── test_tracking.py         # Testes adicionais
+│
+├── 🔧 scripts/                  # Scripts auxiliares
+│   ├── run_baseline_test.sh     # Executar teste baseline
+│   ├── analyze_baseline.py      # Analisar resultados
+│   └── quick_test.sh            # Teste rápido (cópia)
+│
+├── 🔍 rag/                      # Sistema RAG
 │   ├── __init__.py
-│   ├── vector_store.py      # Vector store com FAISS
-│   ├── retriever_tools.py   # Tools de recuperação
-│   └── vector_db/           # Banco de dados vetorial (gerado)
+│   ├── vector_store.py          # Vector store com FAISS
+│   ├── retriever_tools.py       # Tools de recuperação
+│   └── vector_db/               # Banco de dados vetorial (gerado)
 │
-├── metrics/                 # Sistema de métricas
+├── 📊 metrics/                  # Sistema de métricas
 │   ├── __init__.py
-│   ├── metrics_tracker.py   # Rastreador de métricas
-│   └── data/                # Dados de métricas (gerado)
+│   ├── metrics_tracker.py       # Rastreador de métricas
+│   └── data/                    # Dados de métricas (gerado)
+│       ├── baseline_report.json
+│       └── baseline_project_*.json
 │
-├── knowledge_base/          # Base de conhecimento RAG
-│   ├── best_practices/      # Best practices
+├── 📚 knowledge_base/           # Base de conhecimento RAG
+│   ├── best_practices/          # Best practices
 │   │   ├── software_architecture.md
 │   │   └── coding_standards.md
-│   ├── templates/           # Templates de documentos
+│   ├── templates/               # Templates de documentos
 │   │   └── prd_template.md
-│   ├── code_examples/       # Exemplos de código
+│   ├── code_examples/           # Exemplos de código
 │   │   └── python_patterns.py
-│   └── documentation/       # Guias e documentação
+│   └── documentation/           # Guias e documentação
 │       └── project_development_guide.md
 │
-├── workspace/               # Arquivos gerados pelos agentes
+├── 📁 workspace/                # Arquivos gerados pelos agentes
 │   ├── prd.md
 │   ├── architecture.md
 │   ├── src/
 │   ├── tests.py
 │   └── README.md
 │
-└── output/                  # Outputs e logs
+└── 📂 output/                   # Outputs e logs
 ```
 
 ---
@@ -393,30 +473,52 @@ print(f"Métricas salvas em: {filepath}")
 
 ### Arquivos de Documentação
 
-- **[PLANO_ESTUDO_RAG_METRICAS.md](PLANO_ESTUDO_RAG_METRICAS.md)**: Plano completo de implementação RAG e estudo comparativo
-- **[SETUP_COMPLETO.md](SETUP_COMPLETO.md)**: Guia detalhado de configuração
-- **[TRACKING_STATUS_REPORT.md](TRACKING_STATUS_REPORT.md)**: Status do tracking com AgentOps
+Toda a documentação está organizada em **`docs/`**:
+
+- **[PLANO_ESTUDO_RAG_METRICAS.md](docs/PLANO_ESTUDO_RAG_METRICAS.md)** - Plano completo de implementação RAG e estudo comparativo
+- **[RAG_INTEGRATION.md](docs/RAG_INTEGRATION.md)** - Como o RAG funciona e está integrado
+- **[BASELINE_TEST_GUIDE.md](docs/BASELINE_TEST_GUIDE.md)** - Guia completo de testes baseline
+- **[QUICK_START_TESTS.md](docs/QUICK_START_TESTS.md)** - Resumo rápido de todos os scripts
+- **[SETUP_COMPLETO.md](docs/SETUP_COMPLETO.md)** - Guia detalhado de configuração
+- **[TRACKING_STATUS_REPORT.md](docs/TRACKING_STATUS_REPORT.md)** - Status do tracking com AgentOps
+
+### Scripts de Teste
+
+Todos os testes estão em **`tests/`** e scripts auxiliares em **`scripts/`**:
+
+```bash
+# Teste rápido (1 projeto)
+./quick_test.sh
+
+# Teste baseline (5 projetos)
+./scripts/run_baseline_test.sh
+
+# Análise de resultados
+python scripts/analyze_baseline.py
+
+# Testes unitários
+python tests/test_rag_setup.py
+python tests/test_rag_integration.py
+```
 
 ### Base de Conhecimento
 
-A base de conhecimento inclui:
-- **Best Practices**: Arquitetura de software, padrões de código
-- **Templates**: PRD, arquitetura, documentação
-- **Exemplos**: Padrões de design em Python
-- **Guias**: Processo completo de desenvolvimento
-
-Acesse em: `knowledge_base/`
+A base de conhecimento está em **`knowledge_base/`**:
+- **best_practices/** - Arquitetura de software, padrões de código
+- **templates/** - PRD, arquitetura, documentação
+- **code_examples/** - Padrões de design em Python
+- **documentation/** - Processo completo de desenvolvimento
 
 ---
 
 ## 🔬 Estudo Comparativo (Experimental)
 
 Este projeto suporta estudos comparativos entre:
-1. **Baseline**: Sistema atual sem RAG
-2. **RAG**: Sistema com Retrieval-Augmented Generation
-3. **Otimizado**: Sistema com AutoPDL + DSPy
+1. **Baseline**: Sistema atual com RAG
+2. **Otimizado**: Sistema com AutoPDL + DSPy
+3. **Customizado**: Outras configurações
 
-Veja o plano completo em: [PLANO_ESTUDO_RAG_METRICAS.md](PLANO_ESTUDO_RAG_METRICAS.md)
+Veja o plano completo em: **[docs/PLANO_ESTUDO_RAG_METRICAS.md](docs/PLANO_ESTUDO_RAG_METRICAS.md)**
 
 ---
 
@@ -475,12 +577,23 @@ Contribuições são bem-vindas! Para contribuir:
 
 ## 📝 Changelog
 
+### v2.1.0 (2025-01-12)
+- 🗂️ **Reorganização completa do repositório**
+  - Toda documentação movida para `docs/`
+  - Todos os testes movidos para `tests/`
+  - Scripts auxiliares em `scripts/`
+  - READMEs contextuais em cada diretório
+  - Estrutura profissional e organizada
+- 📚 Adicionado [STRUCTURE.md](STRUCTURE.md) com mapa completo
+- 📝 Links e referências atualizados
+
 ### v2.0.0 (2025-01-12)
 - ✨ Adicionado sistema RAG completo
 - ✨ Implementado Knowledge Manager agent
 - ✨ Sistema de métricas detalhadas
 - ✨ Base de conhecimento pré-populada
 - 📚 Documentação expandida
+- 🧪 Teste baseline (5 projetos)
 
 ### v1.0.0 (2024-11-11)
 - 🎉 Release inicial

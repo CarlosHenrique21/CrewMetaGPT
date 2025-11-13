@@ -1,98 +1,69 @@
 """
-CLI interface for SimpleCalc CLI.
-Handles user input, commands and output.
+CLI entry point and argument parsing for SecurePass CLI Generator.
 """
+
+import argparse
 import sys
-from parser import parse_expression
-from calculator import evaluate_expression
-from history import HistoryManager
-from errors import ParseError, EvaluationError
+from src.generator import generate_multiple_passwords
+from src.output import output_passwords
+from src.entropy import estimate_entropy
+from src.utils import validate_length, validate_strength
 
 
-class SimpleCalcCLI:
-    def __init__(self):
-        self.history_manager = HistoryManager()
-        self.exit_flag = False
+def parse_arguments():
+    parser = argparse.ArgumentParser(description='SecurePass CLI Generator - Generate secure random passwords')
 
-    def print_welcome(self):
-        welcome_msg = (
-            "Welcome to SimpleCalc CLI!\n"
-            "Enter arithmetic expressions to calculate.\n"
-            "Commands: history, save <filename>, help, exit\n"
-        )
-        print(welcome_msg)
+    parser.add_argument('--length', type=int, default=12, help='Password length (8-64, default: 12)')
+    parser.add_argument('--strength', choices=['weak', 'medium', 'strong'], default='medium', help='Password strength level (weak, medium, strong, default: medium)')
+    parser.add_argument('--special-chars', action='store_true', help='Include special characters')
+    parser.add_argument('--count', type=int, default=1, help='Number of passwords to generate (default: 1)')
+    parser.add_argument('--copy', action='store_true', help='Copy first generated password to clipboard')
+    parser.add_argument('--save', metavar='FILE', type=str, help='Save generated passwords to file')
+    parser.add_argument('--entropy', action='store_true', help='Show entropy estimation for generated passwords')
 
-    def print_help(self):
-        help_msg = ("""
-SimpleCalc CLI Help:
+    return parser.parse_args()
 
-- Enter arithmetic expressions using +, -, *, /, and parentheses.
-- Commands:
-  - history                Show calculation history
-  - save <filename>        Save history to the specified file
-  - help                   Show this help message
-  - exit                   Exit the calculator
 
-Examples:
-  2 + 3 * 4
-  (5 + 2) / 3
-""")
-        print(help_msg)
+def main():
+    args = parse_arguments()
 
-    def process_input(self, user_input):
-        user_input = user_input.strip()
-        if not user_input:
-            return
-        if user_input.lower() == 'exit':
-            self.exit_flag = True
-            print("Goodbye!")
-            return
-        if user_input.lower() == 'help':
-            self.print_help()
-            return
-        if user_input.lower() == 'history':
-            history_text = self.history_manager.format_history()
-            if history_text:
-                print(history_text)
-            else:
-                print("No history yet.")
-            return
-        if user_input.lower().startswith('save '):
-            _, _, filename = user_input.partition(' ')
-            filename = filename.strip()
-            if not filename:
-                print("Error: Please specify a filename to save history.")
-                return
-            try:
-                self.history_manager.save_to_file(filename)
-                print(f"History saved to {filename}")
-            except Exception as e:
-                print(f"Error saving history: {e}")
-            return
-        # Otherwise, treat as expression
-        try:
-            rpn = parse_expression(user_input)
-            result = evaluate_expression(rpn)
-            result_str = str(result)
-            print(result_str)
-            self.history_manager.add(user_input, result_str)
-        except ParseError as pe:
-            error_msg = f"Parse error: {pe.message}" if hasattr(pe, 'message') else f"Parse error: {pe}"
-            print(error_msg)
-            self.history_manager.add(user_input, error_msg)
-        except EvaluationError as ee:
-            error_msg = f"Evaluation error: {ee.message}" if hasattr(ee, 'message') else f"Evaluation error: {ee}"
-            print(error_msg)
-            self.history_manager.add(user_input, error_msg)
-        except Exception as e:
-            print(f"Unexpected error: {e}")
+    # Validate input arguments
+    if not validate_length(args.length):
+        print('Error: Password length must be between 8 and 64.')
+        sys.exit(1)
+    if not validate_strength(args.strength):
+        print(f"Error: Invalid strength level '{args.strength}'. Must be one of weak, medium, strong.")
+        sys.exit(1)
+    if args.count < 1:
+        print('Error: Count must be at least 1.')
+        sys.exit(1)
 
-    def run(self):
-        self.print_welcome()
-        while not self.exit_flag:
-            try:
-                user_input = input("calc> ")
-            except (EOFError, KeyboardInterrupt):
-                print("\nGoodbye!")
-                break
-            self.process_input(user_input)
+    # Generate passwords
+    try:
+        passwords = generate_multiple_passwords(args.count, args.length, args.strength, args.special_chars)
+    except ValueError as ve:
+        print(f"Error during password generation: {ve}")
+        sys.exit(1)
+
+    # Output passwords
+    output_mode = 'console'
+    output_path = None
+    if args.save:
+        output_mode = 'file'
+        output_path = args.save
+
+    try:
+        output_passwords(passwords, output_mode, output_path, copy_to_clipboard=args.copy)
+    except ValueError as ve:
+        print(f"Error in output handling: {ve}")
+        sys.exit(1)
+
+    # Show entropy if requested
+    if args.entropy:
+        for idx, pwd in enumerate(passwords, start=1):
+            entropy_val = estimate_entropy(pwd)
+            print(f"Entropy for Password {idx}: {entropy_val:.2f} bits")
+
+
+if __name__ == '__main__':
+    main()

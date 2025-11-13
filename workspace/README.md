@@ -1,89 +1,68 @@
-# CLI Snake Game with Pygame
+# Markdown to HTML Converter Documentation
 
-## Project Description
+## Table of Contents
+- [Project Overview](#project-overview)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Features](#features)
+- [Technology Stack](#technology-stack)
+- [File Structure](#file-structure)
+- [Contributing](#contributing)
+- [License](#license)
 
-CLI Snake Game with Pygame is a classic snake game playable entirely from the command line interface, implemented using Python and the Pygame library. Control the snake using arrow keys or WASD to eat food and grow the snake, while avoiding collisions with the walls or the snake's own body. The game offers an engaging arcadestyle experience with smooth controls and real-time score tracking.
-
-## Features
-
-- Classic snake gameplay with smooth, responsive controls (arrow keys or WASD).
-- Food spawns randomly for the snake to eat and grow.
-- Game over on collision with walls or self.
-- Real-time score display.
-- Restart or exit option after game over.
-- High score tracking with persistent storage.
-- Simple and portable, runs on Windows, macOS, and Linux.
+## Project Overview
+The Markdown to HTML Converter is a tool designed to convert Markdown text into HTML format, supporting titles, lists, and links. This project is aimed at developers, writers, and content creators who want to publish web content with ease.
 
 ## Installation
+To set up the Markdown to HTML Converter on your local machine, follow these steps:
 
-1. Ensure Python 3.x is installed on your system.
-2. Install Pygame library via pip:
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/markdown-to-html-converter.git
+   cd markdown-to-html-converter
+   ```
 
-```
-pip install pygame
-```
+2. Install the dependencies:
+   ```bash
+   npm install
+   ```
 
-3. Clone or download the CLI Snake Game source code.
+3. Start the server:
+   ```bash
+   node src/server.js
+   ```
 
-4. Navigate to the project directory.
+4. Open your browser and go to `http://localhost:3000`.
 
 ## Usage
+To use the Markdown to HTML Converter, simply enter your Markdown text in the provided text area on the web page and click the "Convert" button. The converted HTML will be displayed in the output section.
 
-Run the game using the following command in your terminal or command prompt:
+## Features
+- **Title Support**: Convert Markdown titles to HTML header tags.
+- **List Support**: Convert ordered and unordered lists.
+- **Link Support**: Convert Markdown links to HTML anchor tags.
+- **User-friendly Interface**: Simple and intuitive UI for easy interaction.
 
+## Technology Stack
+- **Frontend**: HTML, CSS, JavaScript
+- **Backend**: Node.js
+- **Libraries**: 
+  - `markdown-it`: A markdown parser and compiler for JavaScript.
+
+## File Structure
 ```
-python src/main.py
-```
-
-### Controls
-
-- Arrow keys or WASD to control the snake direction.
-- `Esc` key to quit anytime.
-- After Game Over:
-  - Press `R` to restart the game.
-  - Press `Q` or `Esc` to quit.
-
-## Project Structure
-
-```
-cli-snake-game/
-├── src/                  # Source code modules
-│   ├── __init__.py
-│   ├── main.py           # Main entry point and game loop
-│   ├── game.py           # Game logic and state management
-│   ├── snake.py          # Snake entity and movement
-│   ├── food.py           # Food spawning and position
-│   ├── input_handler.py  # Keyboard input management
-│   ├── renderer.py       # Rendering game elements with Pygame
-│   ├── score.py          # Score tracking and persistence
-│   └── config.py         # Game configuration constants
-├── assets/               # Placeholder for assets
-├── tests/                # Unit and integration tests
-│   ├── test_game.py
-│   ├── test_snake.py
-│   └── test_food.py
-├── requirements.txt      # Python dependencies
-├── highscore.json        # Persistent high score storage
-├── README.md             # Project overview and instructions
-└── user_guide.md         # Detailed user manual
+/markdown-to-html-converter
+|-- /public                # Static files for the frontend
+|   |-- index.html         # Main HTML file
+|   |-- styles.css         # CSS styles for the UI
+|   |-- app.js             # Frontend JavaScript
+|-- /src                   # Source files for the backend
+|   |-- server.js          # Entry point for the Node.js server
+|   |-- markdownParser.js   # Module for parsing Markdown
 ```
 
 ## Contributing
-
-Contributions are welcome! To contribute:
-
-1. Fork the repository.
-2. Create a feature branch: `git checkout -b feature/your-feature`.
-3. Commit your changes with clear messages.
-4. Push the branch to your fork.
-5. Open a pull request describing your changes.
-
-Please ensure your code follows existing style and includes tests if applicable.
+Contributions are welcome! Please submit a pull request or open an issue to discuss changes.
 
 ## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
----
-
-Enjoy playing the CLI Snake Game!
+This project is licensed under the MIT License. See the LICENSE file for more details.

@@ -1,9 +1,24 @@
-import random
+"""
+Utility functions and constants for SecurePass CLI Generator.
+"""
+
+import string
+
+# Character sets
+LOWERCASE_LETTERS = string.ascii_lowercase
+UPPERCASE_LETTERS = string.ascii_uppercase
+DIGITS = string.digits
+SPECIAL_CHARACTERS = "!@#$%^&*()-_=+[{]}\\|;:'\",<.>/?`~"
+
+# Allowed strengths
+ALLOWED_STRENGTHS = {'weak', 'medium', 'strong'}
 
 
-def get_random_position(width, height, exclude_positions):
-    """Generate random position on the grid excluding given positions."""
-    while True:
-        pos = (random.randint(0, width - 1), random.randint(0, height - 1))
-        if pos not in exclude_positions:
-            return pos
+def validate_length(length: int) -> bool:
+    """Validate that password length is between 8 and 64."""
+    return 8 <= length <= 64
+
+
+def validate_strength(strength: str) -> bool:
+    """Check if strength is one of the allowed levels."""
+    return strength in ALLOWED_STRENGTHS

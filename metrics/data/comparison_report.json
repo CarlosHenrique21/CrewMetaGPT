@@ -1,0 +1,59 @@
+{
+  "timestamp": "2025-11-12T21:48:08.348849",
+  "baseline_with_rag": {
+    "report_path": "metrics/data/baseline_report.json",
+    "date": "2025-11-12T18:43:03.301023",
+    "successful_projects": 5,
+    "stats": {
+      "total_cost": 0.0,
+      "avg_cost_per_project": 0.0,
+      "total_tokens": 0,
+      "avg_tokens_per_project": 0,
+      "total_llm_calls": 0,
+      "avg_llm_calls_per_project": 0,
+      "total_rag_retrievals": 4,
+      "avg_duration_per_project": 539.0503639698029
+    }
+  },
+  "baseline_without_rag": {
+    "report_path": "metrics/data/no_rag/baseline_report.json",
+    "date": "2025-11-12T21:38:35.127924",
+    "successful_projects": 5,
+    "stats": {
+      "total_cost": 0.0,
+      "avg_cost_per_project": 0.0,
+      "total_tokens": 0,
+      "avg_tokens_per_project": 0,
+      "total_llm_calls": 0,
+      "avg_llm_calls_per_project": 0,
+      "total_rag_retrievals": 0,
+      "avg_duration_per_project": 743.1565677642823
+    }
+  },
+  "comparison": {
+    "cost": {
+      "with_rag": 0.0,
+      "without_rag": 0.0,
+      "difference_percent": 0,
+      "impact": "decrease"
+    },
+    "tokens": {
+      "with_rag": 0,
+      "without_rag": 0,
+      "difference_percent": 0,
+      "impact": "decrease"
+    },
+    "duration": {
+      "with_rag": 539.0503639698029,
+      "without_rag": 743.1565677642823,
+      "difference_percent": -27.464764848747013,
+      "impact": "decrease"
+    },
+    "llm_calls": {
+      "with_rag": 0,
+      "without_rag": 0,
+      "difference_percent": 0,
+      "impact": "decrease"
+    }
+  }
+}
