@@ -234,74 +234,90 @@ O script de comparação completa mostra:
 
 ## 📂 Estrutura do Projeto
 
-> 📋 **Veja estrutura completa em**: [STRUCTURE.md](STRUCTURE.md)
+> 📋 **Veja estrutura completa em**: [docs/STRUCTURE.md](docs/STRUCTURE.md)
 
 ```
 CrewAI-Project/
-├── 📄 Core Files
-│   ├── main.py                  # Ponto de entrada principal
-│   ├── agents.py                # Definições dos agentes
-│   ├── tasks.py                 # Definições das tasks
-│   ├── tools.py                 # Tools customizadas
-│   ├── crew.py                  # Configuração do crew
-│   ├── config.py                # Configurações gerais
-│   ├── requirements.txt         # Dependências Python
-│   ├── .env                     # Variáveis de ambiente
-│   └── quick_test.sh            # Script de teste rápido
+├── 📄 Core Files (Raiz)
+│   ├── main.py                      # Ponto de entrada principal
+│   ├── config.py                    # Configurações gerais
+│   ├── tools.py                     # Tools compartilhadas
+│   │
+│   ├── agents.py                    # Agents baseline (COM RAG)
+│   ├── agents_no_rag.py             # Agents SEM RAG
+│   ├── agents_crewai_dspy.py        # 🆕 Agents COM RAG + DSPy
+│   │
+│   ├── crew.py                      # Crew baseline
+│   ├── crew_no_rag.py               # Crew SEM RAG
+│   ├── crew_crewai_dspy.py          # 🆕 Crew COM RAG + DSPy
+│   │
+│   ├── tasks.py                     # Tasks baseline
+│   ├── tasks_no_rag.py              # Tasks SEM RAG
+│   │
+│   ├── dspy_config.py               # 🆕 Configuração DSPy
+│   ├── dspy_optimizer.py            # 🆕 Otimizador DSPy
+│   │
+│   ├── requirements.txt             # Dependências Python
+│   ├── .env                         # Variáveis de ambiente
+│   ├── .gitignore                   # Git ignore
+│   └── README.md                    # Este arquivo
 │
-├── 📚 docs/                     # Documentação
-│   ├── PLANO_ESTUDO_RAG_METRICAS.md    # Plano de estudo completo
-│   ├── RAG_INTEGRATION.md              # Como o RAG funciona
-│   ├── BASELINE_TEST_GUIDE.md          # Guia de testes baseline
-│   ├── QUICK_START_TESTS.md            # Resumo de scripts
-│   ├── SETUP_COMPLETO.md               # Setup detalhado
-│   ├── TRACKING_STATUS_REPORT.md       # Status do tracking
-│   └── ... (outros docs)
+├── 📚 docs/                         # 📝 Toda documentação
+│   ├── STRUCTURE.md                 # Estrutura completa
+│   ├── CREWAI_DSPY_HYBRID.md        # 🆕 Abordagem híbrida
+│   ├── AGENTOPS_TRACKING_COMPLETO.md # 🆕 Tracking completo
+│   ├── RAG_INTEGRATION.md           # Como RAG funciona
+│   ├── BASELINE_COMPARISON.md       # Comparação de baselines
+│   ├── PLANO_ESTUDO_RAG_METRICAS.md # Plano de estudo
+│   └── ...  (20 arquivos .md)
 │
-├── 🧪 tests/                    # Scripts de teste
-│   ├── test_baseline.py         # Teste baseline (5 projetos)
-│   ├── test_rag_setup.py        # Teste do RAG isolado
-│   ├── test_rag_integration.py  # Teste de integração RAG
-│   ├── test_crewai_tracking.py  # Teste de tracking
-│   └── test_tracking.py         # Testes adicionais
+├── 🧪 tests/                        # Testes
+│   ├── test_baseline.py             # Teste baseline COM RAG
+│   ├── test_baseline_no_rag.py      # Teste SEM RAG
+│   ├── test_crewai_dspy_single.py   # 🆕 Teste COM RAG + DSPy
+│   ├── test_rag_setup.py            # Teste RAG isolado
+│   ├── test_rag_integration.py      # Teste integração RAG
+│   └── test_metrics.py              # Teste de métricas
 │
-├── 🔧 scripts/                  # Scripts auxiliares
-│   ├── run_baseline_test.sh     # Executar teste baseline
-│   ├── analyze_baseline.py      # Analisar resultados
-│   └── quick_test.sh            # Teste rápido (cópia)
+├── 🔧 scripts/                      # Scripts auxiliares
+│   ├── run_baseline_test.sh         # Baseline COM RAG (5 projetos)
+│   ├── run_baseline_no_rag.sh       # Baseline SEM RAG (5 projetos)
+│   ├── run_baseline_crewai_dspy.sh  # 🆕 Baseline COM RAG + DSPy (5 projetos)
+│   ├── compare_baselines.py         # Comparar 2 baselines
+│   ├── compare_all_baselines.py     # Comparar 3 baselines
+│   └── analyze_baseline.py          # Analisar resultados
 │
-├── 🔍 rag/                      # Sistema RAG
+├── 🔍 rag/                          # Sistema RAG
 │   ├── __init__.py
-│   ├── vector_store.py          # Vector store com FAISS
-│   ├── retriever_tools.py       # Tools de recuperação
-│   └── vector_db/               # Banco de dados vetorial (gerado)
+│   ├── vector_store.py              # Vector store com FAISS
+│   ├── retriever_tools.py           # Tools de recuperação
+│   └── vector_db/                   # Banco vetorial (gerado)
 │
-├── 📊 metrics/                  # Sistema de métricas
+├── 📊 metrics/                      # Sistema de métricas
 │   ├── __init__.py
-│   ├── metrics_tracker.py       # Rastreador de métricas
-│   └── data/                    # Dados de métricas (gerado)
-│       ├── baseline_report.json
-│       └── baseline_project_*.json
+│   ├── metrics_tracker.py           # Rastreador de métricas
+│   └── data/                        # Dados de métricas (gerado)
+│       ├── sem_rag/                 # Métricas SEM RAG
+│       ├── com_rag/                 # Métricas COM RAG
+│       └── crewai_dspy/             # 🆕 Métricas COM RAG + DSPy
 │
-├── 📚 knowledge_base/           # Base de conhecimento RAG
-│   ├── best_practices/          # Best practices
-│   │   ├── software_architecture.md
-│   │   └── coding_standards.md
-│   ├── templates/               # Templates de documentos
-│   │   └── prd_template.md
-│   ├── code_examples/           # Exemplos de código
-│   │   └── python_patterns.py
-│   └── documentation/           # Guias e documentação
-│       └── project_development_guide.md
+├── 📚 knowledge_base/               # Base de conhecimento RAG
+│   ├── best_practices/              # Best practices
+│   ├── templates/                   # Templates
+│   ├── code_examples/               # Exemplos de código
+│   └── documentation/               # Guias
 │
-├── 📁 workspace/                # Arquivos gerados pelos agentes
+├── 📁 workspace/                    # Outputs dos agentes
 │   ├── prd.md
 │   ├── architecture.md
 │   ├── src/
-│   ├── tests.py
 │   └── README.md
 │
-└── 📂 output/                   # Outputs e logs
+├── 📦 archived/                     # 🗄️ Arquivos obsoletos
+│   ├── README.md                    # Explicação do arquivo
+│   └── ... (versões antigas)
+│
+└── 📂 output/                       # Logs e outputs temporários
 ```
 
 ---

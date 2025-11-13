@@ -1,68 +1,89 @@
-# Markdown to HTML Converter Documentation
+# CLI Simple Calculator
 
-## Table of Contents
-- [Project Overview](#project-overview)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Features](#features)
-- [Technology Stack](#technology-stack)
-- [File Structure](#file-structure)
-- [Contributing](#contributing)
-- [License](#license)
-
-## Project Overview
-The Markdown to HTML Converter is a tool designed to convert Markdown text into HTML format, supporting titles, lists, and links. This project is aimed at developers, writers, and content creators who want to publish web content with ease.
-
-## Installation
-To set up the Markdown to HTML Converter on your local machine, follow these steps:
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/markdown-to-html-converter.git
-   cd markdown-to-html-converter
-   ```
-
-2. Install the dependencies:
-   ```bash
-   npm install
-   ```
-
-3. Start the server:
-   ```bash
-   node src/server.js
-   ```
-
-4. Open your browser and go to `http://localhost:3000`.
-
-## Usage
-To use the Markdown to HTML Converter, simply enter your Markdown text in the provided text area on the web page and click the "Convert" button. The converted HTML will be displayed in the output section.
+A command-line interface calculator application that provides basic arithmetic operations: addition, subtraction, multiplication, and division. The application aims to deliver quick and efficient calculations for users who prefer using CLI tools.
 
 ## Features
-- **Title Support**: Convert Markdown titles to HTML header tags.
-- **List Support**: Convert ordered and unordered lists.
-- **Link Support**: Convert Markdown links to HTML anchor tags.
-- **User-friendly Interface**: Simple and intuitive UI for easy interaction.
+- Perform addition, subtraction, multiplication, and division
+- Handle division by zero with proper error messaging
+- Display results in a user-friendly format
+- Maintain a history of calculations (optional)
 
-## Technology Stack
-- **Frontend**: HTML, CSS, JavaScript
-- **Backend**: Node.js
-- **Libraries**: 
-  - `markdown-it`: A markdown parser and compiler for JavaScript.
+## Installation Instructions
+1. Ensure you have Python 3.11 or higher installed on your system.
+2. Clone the repository:
+   ```bash
+   git clone <repository_url>
+   ```
+3. Navigate to the project directory:
+   ```bash
+   cd cli_simple_calculator
+   ```
+4. Install required packages:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-## File Structure
+## Usage Examples
+- To add two numbers:
+  ```bash
+  python cli.py add 3 5
+  ```
+  Expected output: `Result: 8`
+
+- To subtract two numbers:
+  ```bash
+  python cli.py subtract 10 4
+  ```
+  Expected output: `Result: 6`
+
+- To multiply numbers:
+  ```bash
+  python cli.py multiply 2 3 4
+  ```
+  Expected output: `Result: 24`
+
+- To divide two numbers:
+  ```bash
+  python cli.py divide 20 5
+  ```
+  Expected output: `Result: 4.0`
+
+## Project Structure Overview
 ```
-/markdown-to-html-converter
-|-- /public                # Static files for the frontend
-|   |-- index.html         # Main HTML file
-|   |-- styles.css         # CSS styles for the UI
-|   |-- app.js             # Frontend JavaScript
-|-- /src                   # Source files for the backend
-|   |-- server.js          # Entry point for the Node.js server
-|   |-- markdownParser.js   # Module for parsing Markdown
+cli_simple_calculator/
+├── cli.py                # User interface and command handling
+├── calculator.py         # Business logic for arithmetic operations
+├── history.py            # Management of calculation history
+├── storage.py            # Data persistence layer
+├── tests/
+│   ├── test_calculator.py # Unit tests for calculator logic
+│   ├── test_history.py    # Unit tests for history management
+│   └── test_cli.py        # Unit tests for CLI interaction
+├── history.json          # Data file for storing calculation history
+└── README.md             # Project documentation and usage instructions
 ```
 
-## Contributing
-Contributions are welcome! Please submit a pull request or open an issue to discuss changes.
+## Testing Instructions
+To run the tests, navigate to the project directory and execute:
+```bash
+python -m unittest discover -s tests
+```
+
+## Contributing Guidelines
+1. Fork the repository.
+2. Create a new branch:
+   ```bash
+   git checkout -b feature/YourFeature
+   ```
+3. Make your changes and commit them:
+   ```bash
+   git commit -m "Add your message"
+   ```
+4. Push to the branch:
+   ```bash
+   git push origin feature/YourFeature
+   ```
+5. Create a pull request.
 
 ## License
-This project is licensed under the MIT License. See the LICENSE file for more details.
+This project is licensed under the MIT License.

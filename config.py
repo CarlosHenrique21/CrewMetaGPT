@@ -51,3 +51,18 @@ CREW_CONFIG = {
     "memory": True,
     "max_rpm": 10,  # Rate limiting
 }
+
+
+def get_llm():
+    """
+    Get configured LLM for agents.
+    This ensures AgentOps can track LLM calls properly.
+    """
+    from langchain_openai import ChatOpenAI
+
+    return ChatOpenAI(
+        model=OPENAI_MODEL,
+        temperature=AGENT_CONFIG["temperature"],
+        max_tokens=AGENT_CONFIG["max_tokens"],
+        api_key=OPENAI_API_KEY,
+    )
