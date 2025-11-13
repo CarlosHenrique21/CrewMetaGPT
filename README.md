@@ -176,6 +176,34 @@ Métricas disponíveis:
 - 🚀 Throughput (queries/minuto)
 - 🔧 Eficiência de tools
 
+### Comparação de Baselines: COM RAG vs SEM RAG
+
+Este projeto inclui scripts para comparar o impacto do RAG no sistema:
+
+**Executar Baseline COM RAG:**
+```bash
+./scripts/run_baseline_test.sh
+```
+
+**Executar Baseline SEM RAG:**
+```bash
+./scripts/run_baseline_no_rag.sh
+```
+
+**Comparar Resultados:**
+```bash
+python scripts/compare_baselines.py
+```
+
+O script de comparação gera um relatório detalhado mostrando:
+- 💰 Diferença de custos entre COM e SEM RAG
+- 🎫 Diferença de uso de tokens
+- ⏱️ Diferença de performance (tempo)
+- 📞 Diferença de chamadas LLM
+- 📊 Análise por projeto individual
+
+**Documentação completa**: [docs/BASELINE_COMPARISON.md](docs/BASELINE_COMPARISON.md)
+
 ---
 
 ## 📂 Estrutura do Projeto

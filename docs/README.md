@@ -22,6 +22,12 @@ Bem-vindo à documentação completa do projeto CrewAI com RAG!
   - Métricas coletadas
   - Como analisar resultados
 
+- **[BASELINE_COMPARISON.md](BASELINE_COMPARISON.md)** - Comparação COM RAG vs SEM RAG
+  - Teste baseline sem RAG
+  - Script de comparação detalhada
+  - Análise de impacto do RAG
+  - Interpretação de resultados
+
 ### 📊 Estudos e Métricas
 
 - **[PLANO_ESTUDO_RAG_METRICAS.md](PLANO_ESTUDO_RAG_METRICAS.md)** - Plano completo de estudo comparativo
@@ -57,7 +63,8 @@ Bem-vindo à documentação completa do projeto CrewAI com RAG!
 ### Para Pesquisadores
 1. [PLANO_ESTUDO_RAG_METRICAS.md](PLANO_ESTUDO_RAG_METRICAS.md) - Metodologia completa
 2. [BASELINE_TEST_GUIDE.md](BASELINE_TEST_GUIDE.md) - Como coletar dados
-3. [RESUMO_EXECUTIVO.md](RESUMO_EXECUTIVO.md) - Resultados agregados
+3. [BASELINE_COMPARISON.md](BASELINE_COMPARISON.md) - Comparar COM vs SEM RAG
+4. [RESUMO_EXECUTIVO.md](RESUMO_EXECUTIVO.md) - Resultados agregados
 
 ## 🔗 Links Rápidos
 
@@ -66,8 +73,14 @@ Bem-vindo à documentação completa do projeto CrewAI com RAG!
 # Teste rápido (1 projeto)
 cd .. && ./quick_test.sh
 
-# Teste baseline (5 projetos)
+# Teste baseline COM RAG (5 projetos)
 cd .. && ./scripts/run_baseline_test.sh
+
+# Teste baseline SEM RAG (5 projetos)
+cd .. && ./scripts/run_baseline_no_rag.sh
+
+# Comparar COM vs SEM RAG
+cd .. && python scripts/compare_baselines.py
 
 # Analisar resultados
 cd .. && python scripts/analyze_baseline.py

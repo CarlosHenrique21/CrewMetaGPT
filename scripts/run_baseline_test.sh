@@ -39,6 +39,9 @@ echo "Iniciando teste baseline..."
 echo "======================================"
 echo ""
 
+# Adicionar diretório atual ao PYTHONPATH
+export PYTHONPATH="${PYTHONPATH}:$(pwd)"
+
 python tests/test_baseline.py
 
 EXIT_CODE=$?

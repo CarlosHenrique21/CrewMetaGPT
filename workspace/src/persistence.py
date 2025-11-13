@@ -1,31 +1,46 @@
 import json
 import os
+import tempfile
+from typing import List
+from src.models import Task
 
-HIGH_SCORE_FILE = 'high_scores.json'
+TASKS_FILE = os.path.join(os.path.expanduser('~'), '.cli_task_manager_tasks.json')
 
-class Persistence:
-    @staticmethod
-    def load_high_scores():
-        if not os.path.exists(HIGH_SCORE_FILE):
-            return []
-        try:
-            with open(HIGH_SCORE_FILE, 'r') as f:
-                data = json.load(f)
-                return data.get('high_scores', [])
-        except Exception:
-            return []
 
-    @staticmethod
-    def save_high_score(player_name, score):
-        scores = Persistence.load_high_scores()
-        scores.append({'player': player_name, 'score': score})
-        # Sort descending by score
-        scores = sorted(scores, key=lambda x: x['score'], reverse=True)
-        # Keep only top 10 scores
-        scores = scores[:10]
+def load_tasks() -> List[Task]:
+    """Load tasks from the JSON file, return list of Task objects."""
+    if not os.path.exists(TASKS_FILE):
+        return []
+    try:
+        with open(TASKS_FILE, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        tasks = []
+        for item in data:
+            # Create Task object from dictionary, handling optional fields
+            task = Task(
+                id=item['id'],
+                description=item['description'],
+                status=item.get('status', 'pending'),
+                priority=item.get('priority'),
+                due_date=item.get('due_date'),
+                created_at=item.get('created_at'),
+                updated_at=item.get('updated_at')
+            )
+            tasks.append(task)
+        return tasks
+    except (json.JSONDecodeError, IOError) as e:
+        print(f"Error reading tasks file: {e}")
+        return []
 
-        try:
-            with open(HIGH_SCORE_FILE, 'w') as f:
-                json.dump({'high_scores': scores}, f, indent=2)
-        except Exception as e:
-            print(f'Error saving high scores: {e}')
+
+def save_tasks(tasks: List[Task]) -> None:
+    """Save list of Task objects to the JSON file atomically."""
+    tmp_fd, tmp_path = tempfile.mkstemp(prefix='tasks_', suffix='.json', dir=os.path.dirname(TASKS_FILE))
+    try:
+        with os.fdopen(tmp_fd, 'w', encoding='utf-8') as tmp_file:
+            json.dump([task.__dict__ for task in tasks], tmp_file, indent=2)
+        os.replace(tmp_path, TASKS_FILE)  # atomic replace
+    except Exception as e:
+        print(f"Error saving tasks file: {e}")
+        if os.path.exists(tmp_path):
+            os.remove(tmp_path)

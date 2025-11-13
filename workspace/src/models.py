@@ -1,29 +1,28 @@
 from dataclasses import dataclass, field
-from typing import List, Optional
 from datetime import datetime
+from enum import Enum
+from typing import Optional
+
+class TaskStatus(str, Enum):
+    PENDING = "pending"
+    DONE = "done"
 
 @dataclass
-class Location:
-    city_name: str
-    latitude: Optional[float] = None
-    longitude: Optional[float] = None
-    user_label: Optional[str] = None
+class Task:
+    id: int
+    description: str
+    status: TaskStatus = TaskStatus.PENDING
+    priority: Optional[int] = None
+    due_date: Optional[str] = None  # ISO8601 date string (YYYY-MM-DD)
+    created_at: str = field(default_factory=lambda: datetime.utcnow().isoformat() + 'Z')
+    updated_at: str = field(default_factory=lambda: datetime.utcnow().isoformat() + 'Z')
 
-@dataclass
-class DailyForecast:
-    date: datetime
-    temperature: float
-    humidity: int
-    wind_speed: float
-    condition_description: str
+    def mark_done(self):
+        """Mark the task as done and update the timestamp."""
+        self.status = TaskStatus.DONE
+        self.updated_at = datetime.utcnow().isoformat() + 'Z'
 
-@dataclass
-class WeatherData:
-    temperature: float
-    humidity: int
-    wind_speed: float
-    condition_description: str
-    uv_index: Optional[int] = None
-    sunrise_time: Optional[datetime] = None
-    sunset_time: Optional[datetime] = None
-    forecast_days: List[DailyForecast] = field(default_factory=list)
+    def update_description(self, new_description: str):
+        """Update the description of the task."""
+        self.description = new_description
+        self.updated_at = datetime.utcnow().isoformat() + 'Z'

@@ -25,10 +25,13 @@ Arquivos principais do sistema:
 
 ```
 ├── main.py                  # ⭐ Ponto de entrada principal
-├── agents.py                # Definições dos agentes
-├── tasks.py                 # Definições das tasks
+├── agents.py                # Definições dos agentes COM RAG
+├── agents_no_rag.py         # Definições dos agentes SEM RAG (comparação)
+├── tasks.py                 # Definições das tasks COM RAG
+├── tasks_no_rag.py          # Definições das tasks SEM RAG (comparação)
+├── crew.py                  # Configuração do crew COM RAG
+├── crew_no_rag.py           # Configuração do crew SEM RAG (comparação)
 ├── tools.py                 # Tools customizadas
-├── crew.py                  # Configuração do crew
 ├── config.py                # Configurações gerais
 ├── requirements.txt         # Dependências Python
 ├── .env                     # Variáveis de ambiente (gitignored)
@@ -40,7 +43,8 @@ Arquivos principais do sistema:
 
 **Arquivos chave:**
 - `main.py` - Executa o sistema com RAG + métricas
-- `agents.py` - 5 agentes + Knowledge Manager
+- `agents.py` - 5 agentes + Knowledge Manager COM RAG
+- `agents_no_rag.py` - 5 agentes SEM RAG (para comparação)
 - `quick_test.sh` - Teste rápido (1 projeto)
 
 ---
@@ -55,6 +59,7 @@ docs/
 ├── PLANO_ESTUDO_RAG_METRICAS.md       # ⭐ Plano de estudo completo
 ├── RAG_INTEGRATION.md                 # ⭐ Como o RAG funciona
 ├── BASELINE_TEST_GUIDE.md             # ⭐ Guia de testes baseline
+├── BASELINE_COMPARISON.md             # ⭐ Comparação COM vs SEM RAG
 ├── QUICK_START_TESTS.md               # Resumo de scripts
 ├── SETUP_COMPLETO.md                  # Setup detalhado
 ├── TRACKING_STATUS_REPORT.md          # Status do tracking
@@ -69,6 +74,7 @@ docs/
 - `PLANO_ESTUDO_RAG_METRICAS.md` - Metodologia de pesquisa
 - `RAG_INTEGRATION.md` - Entender o sistema RAG
 - `BASELINE_TEST_GUIDE.md` - Como testar
+- `BASELINE_COMPARISON.md` - Comparar COM vs SEM RAG
 
 ---
 
@@ -79,7 +85,8 @@ Todos os scripts de teste:
 ```
 tests/
 ├── README.md                 # ⭐ Guia de testes
-├── test_baseline.py          # ⭐ Teste baseline (5 projetos)
+├── test_baseline.py          # ⭐ Teste baseline COM RAG (5 projetos)
+├── test_baseline_no_rag.py   # ⭐ Teste baseline SEM RAG (5 projetos)
 ├── test_rag_setup.py         # Teste RAG isolado
 ├── test_rag_integration.py   # Verificação de integração
 ├── test_crewai_tracking.py   # Teste de tracking
@@ -88,7 +95,8 @@ tests/
 ```
 
 **Testes principais:**
-- `test_baseline.py` - Executa 5 projetos, coleta métricas
+- `test_baseline.py` - Executa 5 projetos COM RAG, coleta métricas
+- `test_baseline_no_rag.py` - Executa 5 projetos SEM RAG, coleta métricas
 - `test_rag_integration.py` - Valida configuração RAG
 - `test_rag_setup.py` - Testa vector store
 
@@ -101,13 +109,17 @@ Scripts para executar e analisar:
 ```
 scripts/
 ├── README.md                 # ⭐ Guia de scripts
-├── run_baseline_test.sh      # ⭐ Executa teste baseline
-├── analyze_baseline.py       # ⭐ Analisa resultados
+├── run_baseline_test.sh      # ⭐ Executa teste baseline COM RAG
+├── run_baseline_no_rag.sh    # ⭐ Executa teste baseline SEM RAG
+├── compare_baselines.py      # ⭐ Compara COM vs SEM RAG
+├── analyze_baseline.py       # Analisa resultados
 └── quick_test.sh             # Teste rápido (cópia)
 ```
 
 **Scripts principais:**
-- `run_baseline_test.sh` - Wrapper do teste baseline
+- `run_baseline_test.sh` - Wrapper do teste baseline COM RAG
+- `run_baseline_no_rag.sh` - Wrapper do teste baseline SEM RAG
+- `compare_baselines.py` - Comparação detalhada entre baselines
 - `analyze_baseline.py` - Análise de métricas
 
 ---
@@ -141,8 +153,12 @@ metrics/
 ├── __init__.py               # Exports do módulo
 ├── metrics_tracker.py        # ⭐ Rastreador completo
 └── data/                     # Métricas salvas (gerado)
-    ├── baseline_report.json
-    └── baseline_project_*.json
+    ├── baseline_report.json          # Relatório baseline COM RAG
+    ├── baseline_project_*.json       # Projetos individuais COM RAG
+    ├── comparison_report.json        # Comparação COM vs SEM RAG
+    └── no_rag/                       # Métricas baseline SEM RAG
+        ├── baseline_report.json      # Relatório baseline SEM RAG
+        └── baseline_project_*.json   # Projetos individuais SEM RAG
 ```
 
 **Métricas coletadas:**
@@ -150,6 +166,7 @@ metrics/
 - Tokens e custos
 - Taxa de sucesso
 - Throughput
+- Comparação COM vs SEM RAG
 
 ---
 

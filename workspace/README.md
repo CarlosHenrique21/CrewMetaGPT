@@ -2,140 +2,111 @@
 
 ## Descrição do Projeto
 
-O Conversor Markdown para HTML é uma ferramenta que permite converter textos escritos em Markdown para código HTML válido e seguro. A aplicação suporta a transformação precisa de títulos (níveis 1 a 3), listas ordenadas e não ordenadas (incluindo listas aninhadas), além de links formatados em Markdown. O projeto é ideal para desenvolvedores, criadores de conteúdo e qualquer usuário que queira visualizar ou publicar documentos Markdown em formato HTML.
+O Conversor Markdown para HTML é uma ferramenta web que transforma textos escritos em Markdown em HTML de forma rápida, segura e confiável. Ideal para desenvolvedores, redatores, blogueiros e qualquer pessoa que queira converter seus documentos Markdown para HTML para uso em sites, blogs ou projetos web.
 
-## Funcionalidades
+## Funcionalidades Principais
 
-- Conversão precisa de títulos Markdown (#, ##, ###) para tags HTML correspondentes (h1, h2, h3).
-- Suporte a listas não ordenadas (-, *, +) e ordenadas (1., 2., 3.) com níveis de aninhamento.
-- Conversão de links Markdown ([texto](url)) para tags HTML <a href="url">texto</a>.
-- Interface Web interativa para edição e visualização em tempo real do HTML gerado.
-- Ferramenta de linha de comando (CLI) para conversão offline e integração em scripts.
-- API REST para integração com outros sistemas.
-- Sanitização do HTML gerado para garantir segurança contra ataques XSS.
+- Conversão em tempo real de Markdown para HTML.
+- Suporte a títulos (#, ##, ###) convertidos para <h1>, <h2> e <h3>.
+- Suporte a listas ordenadas (<ol>) e não ordenadas (<ul>).
+- Conversão de links no formato [texto](url) para tags <a href="url">texto</a>.
+- Entrada via área de texto ou upload de arquivo Markdown (.md, .markdown).
+- Visualização do HTML gerado com sanitização para segurança.
+- Exportação do HTML convertido como arquivo gerado pelo navegador.
+
+## Requisitos
+
+- Navegador moderno com suporte a JavaScript.
+- Conexão de internet para baixar dependências, se necessário.
 
 ## Instalação
 
-### Backend (Python)
+1. Clone este repositório:
 
-1. Certifique-se de ter Python 3.x instalado.
-2. Clone o repositório do projeto.
-3. Navegue até a pasta `backend/`.
-4. Instale as dependências com:
-
-```
-pip install -r requirements.txt
+```bash
+git clone https://seu-repositorio/conversor-markdown-html.git
+cd conversor-markdown-html
 ```
 
-5. Para rodar a API REST:
-
-```
-python api.py
-```
-
-A API estará disponível em http://localhost:5000.
-
-### CLI (Node.js)
-
-1. Certifique-se de ter Node.js instalado.
-2. Na raiz do projeto, instale as dependências:
-
-```
-npm install
-```
-
-3. Para usar o CLI:
-
-```
-node cli/index.js [input.md] [output.html]
-```
-
-- Se nenhum arquivo de entrada for passado, o CLI lerá o Markdown via stdin.
-- Se nenhum arquivo de saída for informado, o HTML será impresso no stdout.
-- Use `-h` ou `--help` para ver instruções.
-
-### Frontend (React)
-
-1. Acesse a pasta `frontend/`.
 2. Instale as dependências:
 
-```
+```bash
 npm install
 ```
 
-3. Para iniciar a aplicação web:
+3. Execute a aplicação em modo de desenvolvimento:
 
-```
-npm run frontend
-```
-
-4. Abra o navegador em http://localhost:3000 para acessar a interface.
-
-## Como Usar
-
-### Interface Web
-- Digite ou cole Markdown no editor da esquerda.
-- Veja o HTML gerado atualizado em tempo real no painel da direita.
-- Use o botão "Copiar HTML" para copiar o conteúdo convertido para a área de transferência.
-- Use o botão "Exportar HTML" para baixar o conteúdo convertido como arquivo HTML.
-
-### CLI
-- Execute a ferramenta passando um arquivo Markdown para convertê-lo para HTML.
-- Exemplo:
-
-```
-node cli/index.js exemplo.md resultado.html
+```bash
+npm run dev
 ```
 
-- Ou use via pipeline:
+4. Acesse a aplicação no navegador em `http://localhost:3000` (ou porta indicada).
+
+## Uso
+
+- Digite seu texto Markdown na área de entrada ou faça upload de um arquivo `.md` ou `.markdown`.
+- Veja a visualização do HTML gerado atualizada em tempo real.
+- Clique em "Exportar HTML" para baixar o resultado como arquivo `output.html`.
+
+### Exemplo Simples
+
+Markdown de entrada:
 
 ```
-echo "# Título" | node cli/index.js
+# Título Principal
+
+Este é um texto com uma lista:
+
+- Item 1
+- Item 2
+
+[Link Google](https://google.com)
 ```
 
-### API REST
-- Faça requisição POST para `/convert` com JSON:
+HTML gerado:
 
-```json
-{
-  "markdown": "# Seu Markdown aqui"
-}
+```html
+<h1>Título Principal</h1>
+<p>Este é um texto com uma lista:</p>
+<ul>
+<li>Item 1</li>
+<li>Item 2</li>
+</ul>
+<p><a href="https://google.com">Link Google</a></p>
 ```
-
-- Receberá JSON com HTML convertido e sanitizado.
 
 ## Estrutura do Projeto
 
 ```
-project-root/
-│
-├── backend/                 # Código Python para API e conversão
-│   ├── converter/           # Módulo de conversão Markdown para HTML
-│   ├── api.py               # Servidor REST API Flask
-│   └── requirements.txt     # Dependências Python
-│
-├── cli/                    # Código CLI Node.js
-│
-├── frontend/                # Aplicação web React
-├── docs/                   # Documentação
-├── tests/                  # Testes automatizados
-├── README.md               # Documentação principal
-└── package.json            # Dependências Node.js
+/conversor-markdown-html
+├── public/               # Arquivo HTML base
+│   └── index.html
+├── src/
+│   ├── components/       # Componentes React (InputArea, OutputArea, Toolbar)
+│   ├── utils/            # Funções utilitárias, como parser Markdown
+│   ├── App.tsx           # Componente principal
+│   └── index.tsx         # Ponto de entrada da aplicação
+├── tests/                # Testes unitários e de integração
+├── package.json          # Dependências e scripts
+├── tsconfig.json         # Configuração TypeScript
+└── vite.config.ts        # Configuração do bundler
 ```
 
-## Contribuição
+## Como Contribuir
 
-Sinta-se à vontade para contribuir! Seguem algumas orientações:
+Contribuições são bem-vindas! Siga os passos:
 
-- Abra issues para bugs ou sugestões.
-- Faça pull requests com explicações claras sobre suas mudanças.
-- Mantenha o padrão de código e inclua testes sempre que possível.
-- Utilize Python 3 para backend, JavaScript (Node.js ou React) para frontend e CLI.
+1. Faça um fork do projeto.
+2. Crie uma branch para sua feature ou correção: `git checkout -b minha-feature`
+3. Faça commits claros e descritivos.
+4. Envie um pull request detalhando as mudanças realizadas.
+
+Por favor, mantenha a consistência do código e siga as boas práticas de desenvolvimento.
 
 ## Licença
 
-Este projeto está licenciado sob a Licença MIT. Consulte o arquivo LICENSE para mais detalhes.
+Este projeto está licenciado sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
 
 ---
 
-Para dúvidas, acesse a seção de Troubleshooting no User Guide ou abra uma issue no repositório.
+© 2024 Conversor Markdown para HTML. Todos os direitos reservados.

@@ -1,98 +1,68 @@
+"""
+CLI entry point and argument parsing for SecurePass CLI Generator.
+"""
+
 import argparse
-from src.api_client import WeatherAPIClient
-from src.utils import print_current_weather, print_forecast
-from src.config import Config
+import sys
+from src.generator import generate_multiple_passwords
+from src.output import output_passwords
+from src.entropy import estimate_entropy
+from src.utils import validate_length, validate_strength
 
 
 def parse_arguments():
-    parser = argparse.ArgumentParser(
-        description="CLI Weather Forecast Tool: fetch current weather and forecast.",
-        formatter_class=argparse.RawTextHelpFormatter)
+    parser = argparse.ArgumentParser(description='SecurePass CLI Generator - Generate secure random passwords')
 
-    subparsers = parser.add_subparsers(dest='command', required=True, help='Available commands')
-
-    # Current weather command
-    parser_current = subparsers.add_parser('current', help='Show current weather')
-    parser_current.add_argument('location', type=str, help='Location name or coordinates (lat,lon)')
-    parser_current.add_argument('--units', type=str, choices=['metric', 'imperial'], default=Config.get_default_units(), help='Units for temperature (default: metric)')
-
-    # Forecast command
-    parser_forecast = subparsers.add_parser('forecast', help='Show weather forecast')
-    parser_forecast.add_argument('location', type=str, help='Location name or coordinates (lat,lon)')
-    parser_forecast.add_argument('--units', type=str, choices=['metric', 'imperial'], default=Config.get_default_units(), help='Units for temperature (default: metric)')
-    parser_forecast.add_argument('--days', type=int, default=5, choices=range(1, 6), help='Number of forecast days (1-5)')
-
-    # Help command (custom to list usage)
-    subparsers.add_parser('help', help='Show help message')
+    parser.add_argument('--length', type=int, default=12, help='Password length (8-64, default: 12)')
+    parser.add_argument('--strength', choices=['weak', 'medium', 'strong'], default='medium', help='Password strength level (weak, medium, strong, default: medium)')
+    parser.add_argument('--special-chars', action='store_true', help='Include special characters')
+    parser.add_argument('--count', type=int, default=1, help='Number of passwords to generate (default: 1)')
+    parser.add_argument('--copy', action='store_true', help='Copy first generated password to clipboard')
+    parser.add_argument('--save', metavar='FILE', type=str, help='Save generated passwords to file')
+    parser.add_argument('--entropy', action='store_true', help='Show entropy estimation for generated passwords')
 
     return parser.parse_args()
-
-
-def parse_location(location_str):
-    # Support either city name "London" or coordinates "lat,lon"
-    if ',' in location_str:
-        parts = location_str.split(',')
-        if len(parts) != 2:
-            raise ValueError("Invalid coordinates format. Use lat,lon")
-        try:
-            lat = float(parts[0].strip())
-            lon = float(parts[1].strip())
-            return {"lat": lat, "lon": lon}
-        except ValueError:
-            raise ValueError("Coordinates must be valid floats.")
-    else:
-        return location_str.strip()
 
 
 def main():
     args = parse_arguments()
 
-    if args.command == 'help':
-        print_help()
-        return
+    # Validate input arguments
+    if not validate_length(args.length):
+        print('Error: Password length must be between 8 and 64.')
+        sys.exit(1)
+    if not validate_strength(args.strength):
+        print(f"Error: Invalid strength level '{args.strength}'. Must be one of weak, medium, strong.")
+        sys.exit(1)
+    if args.count < 1:
+        print('Error: Count must be at least 1.')
+        sys.exit(1)
 
-    client = WeatherAPIClient()
+    # Generate passwords
+    try:
+        passwords = generate_multiple_passwords(args.count, args.length, args.strength, args.special_chars)
+    except ValueError as ve:
+        print(f"Error during password generation: {ve}")
+        sys.exit(1)
+
+    # Output passwords
+    output_mode = 'console'
+    output_path = None
+    if args.save:
+        output_mode = 'file'
+        output_path = args.save
 
     try:
-        location = parse_location(args.location)
-    except ValueError as e:
-        print(f"Error parsing location: {e}")
-        return
+        output_passwords(passwords, output_mode, output_path, copy_to_clipboard=args.copy)
+    except ValueError as ve:
+        print(f"Error in output handling: {ve}")
+        sys.exit(1)
 
-    if args.command == 'current':
-        try:
-            weather = client.fetch_current_weather(location)
-            print_current_weather(weather, units=args.units, location_name=args.location)
-        except Exception as e:
-            print(f"Error fetching current weather: {e}")
-    elif args.command == 'forecast':
-        try:
-            forecast_days = client.fetch_forecast(location, days=args.days)
-            print_forecast(forecast_days, units=args.units, location_name=args.location)
-        except Exception as e:
-            print(f"Error fetching forecast: {e}")
-
-
-def print_help():
-    help_text = """
-CLI Weather Forecast Tool
-
-Usage:
-  weather current <location> [--units metric|imperial]
-  weather forecast <location> [--units metric|imperial] [--days 1-5]
-  weather help
-
-Commands:
-  current   Show current weather for the specified location (city name or lat,lon).
-  forecast  Show 5-day forecast for the specified location.
-  help      Show this help message.
-
-Examples:
-  weather current London
-  weather current 48.85,2.35 --units imperial
-  weather forecast New York --days 3
-"""
-    print(help_text)
+    # Show entropy if requested
+    if args.entropy:
+        for idx, pwd in enumerate(passwords, start=1):
+            entropy_val = estimate_entropy(pwd)
+            print(f"Entropy for Password {idx}: {entropy_val:.2f} bits")
 
 
 if __name__ == '__main__':

@@ -1,62 +1,66 @@
-import string
-import random
-from sqlalchemy.orm import Session
-from app.models.url_mapping import URLMapping, URLCreate
-from datetime import datetime
-from fastapi import HTTPException, status
+import asyncio
 from typing import List, Optional
 
-BASE_SHORT_URL = "https://short.ly/"
+from sqlalchemy import select, update
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from app.models.url_mapping import URLMapping
+from app.core.key_generator import generate_short_key
+from app.core.config import settings
+from fastapi import HTTPException, status
+
 
 class URLService:
-    def __init__(self, db: Session):
+    def __init__(self, db: AsyncSession):
         self.db = db
 
-    def generate_short_code(self, length: int = 6) -> str:
-        # Generates a random alphanumeric short code
-        chars = string.ascii_letters + string.digits
-        while True:
-            short_code = ''.join(random.choices(chars, k=length))
-            # Check if short_code already exists
-            existing = self.db.query(URLMapping).filter(URLMapping.short_code == short_code).first()
-            if not existing:
-                return short_code
-
-    def create_short_url(self, url_create: URLCreate) -> URLMapping:
-        # Check custom alias is unique if provided
-        if url_create.custom_alias:
-            alias = url_create.custom_alias
-            existing = self.db.query(URLMapping).filter(URLMapping.short_code == alias).first()
+    async def create_short_url(self, long_url: str, custom_alias: Optional[str] = None) -> URLMapping:
+        # Check for existing custom alias
+        if custom_alias:
+            existing = await self._get_by_short_key(custom_alias)
             if existing:
-                raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Custom alias already exists")
-            short_code = alias
+                raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Custom alias already in use")
+            short_key = custom_alias
         else:
-            # Generate random short code
-            short_code = self.generate_short_code()
+            # Generate unique short key
+            short_key = await self._generate_unique_short_key()
 
-        # Convert expiration_date from date to datetime at end of day
-        expiration_dt = None
-        if url_create.expiration_date:
-            expiration_dt = datetime.combine(url_create.expiration_date, datetime.max.time())
-
-        url_mapping = URLMapping(
-            long_url=url_create.long_url,
-            short_code=short_code,
-            expiration_date=expiration_dt
-        )
-
+        url_mapping = URLMapping(short_key=short_key, long_url=long_url)
         self.db.add(url_mapping)
-        self.db.commit()
-        self.db.refresh(url_mapping)
+        await self.db.commit()
+        await self.db.refresh(url_mapping)
         return url_mapping
 
-    def list_urls(self, limit: int = 10, offset: int = 0) -> List[URLMapping]:
-        return self.db.query(URLMapping).order_by(URLMapping.created_at.desc()).offset(offset).limit(limit).all()
+    async def _generate_unique_short_key(self) -> str:
+        # Generate short key and verify uniqueness
+        for _ in range(5):  # Retry max 5 times
+            short_key = generate_short_key()
+            exists = await self._get_by_short_key(short_key)
+            if not exists:
+                return short_key
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Could not generate unique short URL key")
 
-    def get_url_by_code(self, short_code: str) -> Optional[URLMapping]:
-        return self.db.query(URLMapping).filter(URLMapping.short_code == short_code).first()
+    async def _get_by_short_key(self, short_key: str) -> Optional[URLMapping]:
+        result = await self.db.execute(select(URLMapping).where(
+            (URLMapping.short_key == short_key) | (URLMapping.custom_alias == short_key))
+        )
+        return result.scalar_one_or_none()
 
-    def increment_click_count(self, url_mapping: URLMapping):
-        url_mapping.click_count += 1
-        self.db.commit()
+    async def list_urls(self) -> List[URLMapping]:
+        result = await self.db.execute(select(URLMapping))
+        return result.scalars().all()
 
+    async def get_long_url(self, short_key: str) -> URLMapping:
+        url_mapping = await self._get_by_short_key(short_key)
+        if not url_mapping:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Short URL not found")
+        return url_mapping
+
+    async def increment_click_count(self, url_mapping: URLMapping) -> None:
+        # Increment click_count asynchronously
+        await self.db.execute(
+            update(URLMapping)
+            .where(URLMapping.id == url_mapping.id)
+            .values(click_count=URLMapping.click_count + 1)
+        )
+        await self.db.commit()
