@@ -71,7 +71,7 @@ Executamos **15 projetos totais** (5 projetos × 3 configurações) com rastream
 | **Tokens Totais** | 976K | **942K** ✅ | 1.248M |
 | **Quality Score** | 76.8% | 86.4% | **94.4%** ✅ |
 | **Taxa Sucesso** | **100%** ✅ | **100%** ✅ | **100%** ✅ |
-| **Modelo** | GPT-4.1-mini | GPT-4.1-mini | GPT-4o-mini |
+| **Modelo** | GPT-4o-mini | GPT-4o-mini | GPT-4o-mini |
 
 ### Principais Descobertas 💡
 
