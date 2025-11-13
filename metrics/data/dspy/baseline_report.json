@@ -1,0 +1,172 @@
+{
+  "report_type": "baseline_dspy",
+  "rag_enabled": true,
+  "dspy_optimized": true,
+  "timestamp": "2025-11-12T22:47:15.650947",
+  "batch_duration_seconds": 26.942944049835205,
+  "total_projects": 5,
+  "successful_projects": 5,
+  "failed_projects": 0,
+  "aggregated_stats": {
+    "total_cost": 0.0,
+    "avg_cost_per_project": 0.0,
+    "total_tokens": 0,
+    "avg_tokens_per_project": 0,
+    "total_llm_calls": 0,
+    "avg_llm_calls_per_project": 0,
+    "total_rag_retrievals": 0,
+    "avg_duration_per_project": 1.3837661266326904
+  },
+  "projects": [
+    {
+      "project_id": "project_01",
+      "project_name": "Todo List CLI",
+      "description": "crie uma aplica\u00e7\u00e3o CLI para gerenciar lista de tarefas com comandos add, list, done e delete",
+      "timestamp": "2025-11-12T22:46:50.144603",
+      "duration_seconds": 1.4379162788391113,
+      "status": "success",
+      "rag_enabled": true,
+      "dspy_optimized": true,
+      "metrics": {
+        "session_id": "20251112_224648",
+        "session_duration": 1,
+        "summary": {
+          "total_queries": 0,
+          "total_retrievals": 0,
+          "total_llm_calls": 0,
+          "total_tool_calls": 0,
+          "total_agent_tasks": 0,
+          "avg_retrieval_latency": 0.0,
+          "avg_llm_latency": 0.0,
+          "total_cost": 0.0,
+          "total_tokens": 0,
+          "throughput": 0
+        },
+        "detailed_metrics": {
+          "tool_efficiency": {},
+          "agent_success_rates": {}
+        }
+      }
+    },
+    {
+      "project_id": "project_02",
+      "project_name": "URL Shortener API",
+      "description": "crie uma API REST para encurtar URLs com endpoints para criar, listar e redirecionar",
+      "timestamp": "2025-11-12T22:46:56.187958",
+      "duration_seconds": 1.0369417667388916,
+      "status": "success",
+      "rag_enabled": true,
+      "dspy_optimized": true,
+      "metrics": {
+        "session_id": "20251112_224655",
+        "session_duration": 1,
+        "summary": {
+          "total_queries": 0,
+          "total_retrievals": 0,
+          "total_llm_calls": 0,
+          "total_tool_calls": 0,
+          "total_agent_tasks": 0,
+          "avg_retrieval_latency": 0.0,
+          "avg_llm_latency": 0.0,
+          "total_cost": 0.0,
+          "total_tokens": 0,
+          "throughput": 0
+        },
+        "detailed_metrics": {
+          "tool_efficiency": {},
+          "agent_success_rates": {}
+        }
+      }
+    },
+    {
+      "project_id": "project_03",
+      "project_name": "Weather CLI",
+      "description": "crie uma ferramenta CLI que consulta API de clima e mostra previs\u00e3o formatada",
+      "timestamp": "2025-11-12T22:47:02.837047",
+      "duration_seconds": 1.642007827758789,
+      "status": "success",
+      "rag_enabled": true,
+      "dspy_optimized": true,
+      "metrics": {
+        "session_id": "20251112_224701",
+        "session_duration": 1,
+        "summary": {
+          "total_queries": 0,
+          "total_retrievals": 0,
+          "total_llm_calls": 0,
+          "total_tool_calls": 0,
+          "total_agent_tasks": 0,
+          "avg_retrieval_latency": 0.0,
+          "avg_llm_latency": 0.0,
+          "total_cost": 0.0,
+          "total_tokens": 0,
+          "throughput": 0
+        },
+        "detailed_metrics": {
+          "tool_efficiency": {},
+          "agent_success_rates": {}
+        }
+      }
+    },
+    {
+      "project_id": "project_04",
+      "project_name": "Password Generator",
+      "description": "crie um gerador de senhas seguras CLI com op\u00e7\u00f5es de tamanho, caracteres especiais e for\u00e7a",
+      "timestamp": "2025-11-12T22:47:08.869473",
+      "duration_seconds": 1.0306880474090576,
+      "status": "success",
+      "rag_enabled": true,
+      "dspy_optimized": true,
+      "metrics": {
+        "session_id": "20251112_224707",
+        "session_duration": 1,
+        "summary": {
+          "total_queries": 0,
+          "total_retrievals": 0,
+          "total_llm_calls": 0,
+          "total_tool_calls": 0,
+          "total_agent_tasks": 0,
+          "avg_retrieval_latency": 0.0,
+          "avg_llm_latency": 0.0,
+          "total_cost": 0.0,
+          "total_tokens": 0,
+          "throughput": 0
+        },
+        "detailed_metrics": {
+          "tool_efficiency": {},
+          "agent_success_rates": {}
+        }
+      }
+    },
+    {
+      "project_id": "project_05",
+      "project_name": "Markdown to HTML Converter",
+      "description": "crie um conversor de Markdown para HTML com suporte a t\u00edtulos, listas e links",
+      "timestamp": "2025-11-12T22:47:15.648681",
+      "duration_seconds": 1.7712767124176025,
+      "status": "success",
+      "rag_enabled": true,
+      "dspy_optimized": true,
+      "metrics": {
+        "session_id": "20251112_224713",
+        "session_duration": 1,
+        "summary": {
+          "total_queries": 0,
+          "total_retrievals": 0,
+          "total_llm_calls": 0,
+          "total_tool_calls": 0,
+          "total_agent_tasks": 0,
+          "avg_retrieval_latency": 0.0,
+          "avg_llm_latency": 0.0,
+          "total_cost": 0.0,
+          "total_tokens": 0,
+          "throughput": 0
+        },
+        "detailed_metrics": {
+          "tool_efficiency": {},
+          "agent_success_rates": {}
+        }
+      }
+    }
+  ]
+}

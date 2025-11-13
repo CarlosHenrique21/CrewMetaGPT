@@ -1,0 +1,66 @@
+{
+  "timestamp": "2025-11-12T22:43:53.633136",
+  "baselines": {
+    "no_rag": {
+      "report_path": "metrics/data/no_rag/baseline_report.json",
+      "date": "2025-11-12T21:38:35.127924",
+      "stats": {
+        "total_cost": 0.0,
+        "avg_cost_per_project": 0.0,
+        "total_tokens": 0,
+        "avg_tokens_per_project": 0,
+        "total_llm_calls": 0,
+        "avg_llm_calls_per_project": 0,
+        "total_rag_retrievals": 0,
+        "avg_duration_per_project": 743.1565677642823
+      }
+    },
+    "with_rag": {
+      "report_path": "metrics/data/baseline_report.json",
+      "date": "2025-11-12T18:43:03.301023",
+      "stats": {
+        "total_cost": 0.0,
+        "avg_cost_per_project": 0.0,
+        "total_tokens": 0,
+        "avg_tokens_per_project": 0,
+        "total_llm_calls": 0,
+        "avg_llm_calls_per_project": 0,
+        "total_rag_retrievals": 4,
+        "avg_duration_per_project": 539.0503639698029
+      }
+    },
+    "with_rag_dspy": {
+      "report_path": "metrics/data/dspy/baseline_report.json",
+      "date": "2025-11-12T22:42:21.316866",
+      "stats": {
+        "total_cost": 0.0,
+        "avg_cost_per_project": 0.0,
+        "total_tokens": 0,
+        "avg_tokens_per_project": 0,
+        "total_llm_calls": 0,
+        "avg_llm_calls_per_project": 0,
+        "total_rag_retrievals": 0,
+        "avg_duration_per_project": 27.139438438415528
+      }
+    }
+  },
+  "comparison": {
+    "cost": {
+      "no_rag": 0.0,
+      "with_rag": 0.0,
+      "with_rag_dspy": 0.0,
+      "best": "SEM RAG"
+    },
+    "performance": {
+      "no_rag": 743.1565677642823,
+      "with_rag": 539.0503639698029,
+      "with_rag_dspy": 27.139438438415528,
+      "best": "COM RAG + DSPy"
+    },
+    "tokens": {
+      "no_rag": 0,
+      "with_rag": 0,
+      "with_rag_dspy": 0
+    }
+  }
+}

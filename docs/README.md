@@ -28,6 +28,12 @@ Bem-vindo à documentação completa do projeto CrewAI com RAG!
   - Análise de impacto do RAG
   - Interpretação de resultados
 
+- **[DSPY_OPTIMIZATION.md](DSPY_OPTIMIZATION.md)** - Por que DSPy é Superior a AutoPDL
+  - Comparação técnica detalhada
+  - Vantagens do DSPy para sistemas multi-agente
+  - Evidências e benchmarks
+  - Guia de implementação
+
 ### 📊 Estudos e Métricas
 
 - **[PLANO_ESTUDO_RAG_METRICAS.md](PLANO_ESTUDO_RAG_METRICAS.md)** - Plano completo de estudo comparativo
@@ -79,7 +85,16 @@ cd .. && ./scripts/run_baseline_test.sh
 # Teste baseline SEM RAG (5 projetos)
 cd .. && ./scripts/run_baseline_no_rag.sh
 
-# Comparar COM vs SEM RAG
+# Treinar pipeline DSPy (opcional, antes do próximo)
+cd .. && python scripts/train_dspy_optimizer.py
+
+# Teste baseline COM RAG + DSPy (5 projetos otimizados)
+cd .. && ./scripts/run_baseline_dspy.sh
+
+# Comparar os 3 baselines
+cd .. && python scripts/compare_all_baselines.py
+
+# Ou comparar apenas 2
 cd .. && python scripts/compare_baselines.py
 
 # Analisar resultados

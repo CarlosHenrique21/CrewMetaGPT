@@ -1,0 +1,30 @@
+{
+  "project_id": "project_01",
+  "project_name": "Todo List CLI",
+  "description": "crie uma aplica\u00e7\u00e3o CLI para gerenciar lista de tarefas com comandos add, list, done e delete",
+  "timestamp": "2025-11-12T22:46:50.144603",
+  "duration_seconds": 1.4379162788391113,
+  "status": "success",
+  "rag_enabled": true,
+  "dspy_optimized": true,
+  "metrics": {
+    "session_id": "20251112_224648",
+    "session_duration": 1,
+    "summary": {
+      "total_queries": 0,
+      "total_retrievals": 0,
+      "total_llm_calls": 0,
+      "total_tool_calls": 0,
+      "total_agent_tasks": 0,
+      "avg_retrieval_latency": 0.0,
+      "avg_llm_latency": 0.0,
+      "total_cost": 0.0,
+      "total_tokens": 0,
+      "throughput": 0
+    },
+    "detailed_metrics": {
+      "tool_efficiency": {},
+      "agent_success_rates": {}
+    }
+  }
+}

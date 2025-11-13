@@ -9,11 +9,13 @@
 Sistema multi-agente de desenvolvimento de software usando **CrewAI** com:
 - ✅ **5 Agentes Especializados** (PM, Architect, Engineer, QA, Tech Writer)
 - 🔍 **RAG (Retrieval-Augmented Generation)** com base de conhecimento
+- 🔧 **Otimização com DSPy** (Stanford) para prompts e pipeline
 - 📊 **Sistema Completo de Métricas** (latência, tokens, custos, throughput)
 - 🎯 **Observabilidade com AgentOps**
 - 📚 **Base de Conhecimento** com templates e best practices
+- 📈 **3 Baselines Comparáveis** (SEM RAG, COM RAG, COM RAG + DSPy)
 
-Este projeto demonstra como criar um sistema de agentes que colaboram para desenvolver software completo, desde a especificação até a documentação, usando RAG para enriquecer as respostas com contexto relevante.
+Este projeto demonstra como criar um sistema de agentes que colaboram para desenvolver software completo, desde a especificação até a documentação, usando RAG para enriquecer as respostas com contexto relevante e DSPy para otimizar automaticamente todo o pipeline.
 
 ---
 
@@ -35,6 +37,14 @@ Este projeto demonstra como criar um sistema de agentes que colaboram para desen
   - Templates de documentação
   - Exemplos de código Python
 - Tools especializadas para recuperação de contexto
+
+### Otimização com DSPy (Stanford)
+- **Pipeline end-to-end otimizável** com agentes como DSPy Modules
+- **Prompts otimizados automaticamente** usando compiladores DSPy
+- **RAG otimizado**: queries e prompts aprendidos juntos
+- **Treinamento com baselines anteriores** para melhoria contínua
+- **Métricas customizadas** (qualidade + custo + performance)
+- **3 Compiladores disponíveis**: BootstrapFewShot, MIPRO, COPRO
 
 ### Métricas e Observabilidade
 - Rastreamento de latência por etapa
@@ -176,33 +186,49 @@ Métricas disponíveis:
 - 🚀 Throughput (queries/minuto)
 - 🔧 Eficiência de tools
 
-### Comparação de Baselines: COM RAG vs SEM RAG
+### Comparação de 3 Baselines: SEM RAG vs COM RAG vs COM RAG + DSPy
 
-Este projeto inclui scripts para comparar o impacto do RAG no sistema:
+Este projeto permite comparar **3 configurações diferentes** do sistema:
 
-**Executar Baseline COM RAG:**
-```bash
-./scripts/run_baseline_test.sh
-```
-
-**Executar Baseline SEM RAG:**
+**1️⃣ Baseline SEM RAG (baseline puro):**
 ```bash
 ./scripts/run_baseline_no_rag.sh
 ```
 
-**Comparar Resultados:**
+**2️⃣ Baseline COM RAG (RAG integrado):**
 ```bash
-python scripts/compare_baselines.py
+./scripts/run_baseline_test.sh
 ```
 
-O script de comparação gera um relatório detalhado mostrando:
-- 💰 Diferença de custos entre COM e SEM RAG
+**3️⃣ Baseline COM RAG + DSPy (otimizado):**
+```bash
+# Opcional: Treinar pipeline primeiro
+python scripts/train_dspy_optimizer.py
+
+# Executar baseline otimizado
+./scripts/run_baseline_dspy.sh
+```
+
+**Comparar os 3 Baselines:**
+```bash
+# Comparação completa dos 3
+python scripts/compare_all_baselines.py
+
+# Ou comparar apenas 2
+python scripts/compare_baselines.py  # COM RAG vs SEM RAG
+```
+
+O script de comparação completa mostra:
+- 💰 Diferença de custos entre os 3 baselines
 - 🎫 Diferença de uso de tokens
 - ⏱️ Diferença de performance (tempo)
 - 📞 Diferença de chamadas LLM
-- 📊 Análise por projeto individual
+- 🏆 Recomendação baseada em dados
+- 📊 Análise detalhada por projeto
 
-**Documentação completa**: [docs/BASELINE_COMPARISON.md](docs/BASELINE_COMPARISON.md)
+**Documentação completa**:
+- [docs/BASELINE_COMPARISON.md](docs/BASELINE_COMPARISON.md) - Comparação COM vs SEM RAG
+- [docs/DSPY_OPTIMIZATION.md](docs/DSPY_OPTIMIZATION.md) - Por que DSPy é superior
 
 ---
 

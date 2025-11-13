@@ -1,0 +1,25 @@
+{
+  "average_score": 1.0,
+  "success_rate": 1.0,
+  "total_examples": 3,
+  "results": [
+    {
+      "example_id": 1,
+      "project_idea": "crie uma aplica\u00e7\u00e3o CLI para gerenciar lista de tarefas com comandos add, list, done e delete",
+      "score": 1.0,
+      "success": true
+    },
+    {
+      "example_id": 2,
+      "project_idea": "crie uma API REST para encurtar URLs com endpoints para criar, listar e redirecionar",
+      "score": 1.0,
+      "success": true
+    },
+    {
+      "example_id": 3,
+      "project_idea": "crie uma ferramenta CLI que consulta API de clima e mostra previs\u00e3o formatada",
+      "score": 1.0,
+      "success": true
+    }
+  ]
+}

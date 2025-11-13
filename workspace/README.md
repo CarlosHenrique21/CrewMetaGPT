@@ -1,112 +1,68 @@
-# Conversor Markdown para HTML
+# Markdown to HTML Converter Documentation
 
-## Descrição do Projeto
+## Table of Contents
+- [Project Overview](#project-overview)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Features](#features)
+- [Technology Stack](#technology-stack)
+- [File Structure](#file-structure)
+- [Contributing](#contributing)
+- [License](#license)
 
-O Conversor Markdown para HTML é uma ferramenta web que transforma textos escritos em Markdown em HTML de forma rápida, segura e confiável. Ideal para desenvolvedores, redatores, blogueiros e qualquer pessoa que queira converter seus documentos Markdown para HTML para uso em sites, blogs ou projetos web.
+## Project Overview
+The Markdown to HTML Converter is a tool designed to convert Markdown text into HTML format, supporting titles, lists, and links. This project is aimed at developers, writers, and content creators who want to publish web content with ease.
 
-## Funcionalidades Principais
+## Installation
+To set up the Markdown to HTML Converter on your local machine, follow these steps:
 
-- Conversão em tempo real de Markdown para HTML.
-- Suporte a títulos (#, ##, ###) convertidos para <h1>, <h2> e <h3>.
-- Suporte a listas ordenadas (<ol>) e não ordenadas (<ul>).
-- Conversão de links no formato [texto](url) para tags <a href="url">texto</a>.
-- Entrada via área de texto ou upload de arquivo Markdown (.md, .markdown).
-- Visualização do HTML gerado com sanitização para segurança.
-- Exportação do HTML convertido como arquivo gerado pelo navegador.
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/markdown-to-html-converter.git
+   cd markdown-to-html-converter
+   ```
 
-## Requisitos
+2. Install the dependencies:
+   ```bash
+   npm install
+   ```
 
-- Navegador moderno com suporte a JavaScript.
-- Conexão de internet para baixar dependências, se necessário.
+3. Start the server:
+   ```bash
+   node src/server.js
+   ```
 
-## Instalação
+4. Open your browser and go to `http://localhost:3000`.
 
-1. Clone este repositório:
+## Usage
+To use the Markdown to HTML Converter, simply enter your Markdown text in the provided text area on the web page and click the "Convert" button. The converted HTML will be displayed in the output section.
 
-```bash
-git clone https://seu-repositorio/conversor-markdown-html.git
-cd conversor-markdown-html
+## Features
+- **Title Support**: Convert Markdown titles to HTML header tags.
+- **List Support**: Convert ordered and unordered lists.
+- **Link Support**: Convert Markdown links to HTML anchor tags.
+- **User-friendly Interface**: Simple and intuitive UI for easy interaction.
+
+## Technology Stack
+- **Frontend**: HTML, CSS, JavaScript
+- **Backend**: Node.js
+- **Libraries**: 
+  - `markdown-it`: A markdown parser and compiler for JavaScript.
+
+## File Structure
+```
+/markdown-to-html-converter
+|-- /public                # Static files for the frontend
+|   |-- index.html         # Main HTML file
+|   |-- styles.css         # CSS styles for the UI
+|   |-- app.js             # Frontend JavaScript
+|-- /src                   # Source files for the backend
+|   |-- server.js          # Entry point for the Node.js server
+|   |-- markdownParser.js   # Module for parsing Markdown
 ```
 
-2. Instale as dependências:
+## Contributing
+Contributions are welcome! Please submit a pull request or open an issue to discuss changes.
 
-```bash
-npm install
-```
-
-3. Execute a aplicação em modo de desenvolvimento:
-
-```bash
-npm run dev
-```
-
-4. Acesse a aplicação no navegador em `http://localhost:3000` (ou porta indicada).
-
-## Uso
-
-- Digite seu texto Markdown na área de entrada ou faça upload de um arquivo `.md` ou `.markdown`.
-- Veja a visualização do HTML gerado atualizada em tempo real.
-- Clique em "Exportar HTML" para baixar o resultado como arquivo `output.html`.
-
-### Exemplo Simples
-
-Markdown de entrada:
-
-```
-# Título Principal
-
-Este é um texto com uma lista:
-
-- Item 1
-- Item 2
-
-[Link Google](https://google.com)
-```
-
-HTML gerado:
-
-```html
-<h1>Título Principal</h1>
-<p>Este é um texto com uma lista:</p>
-<ul>
-<li>Item 1</li>
-<li>Item 2</li>
-</ul>
-<p><a href="https://google.com">Link Google</a></p>
-```
-
-## Estrutura do Projeto
-
-```
-/conversor-markdown-html
-├── public/               # Arquivo HTML base
-│   └── index.html
-├── src/
-│   ├── components/       # Componentes React (InputArea, OutputArea, Toolbar)
-│   ├── utils/            # Funções utilitárias, como parser Markdown
-│   ├── App.tsx           # Componente principal
-│   └── index.tsx         # Ponto de entrada da aplicação
-├── tests/                # Testes unitários e de integração
-├── package.json          # Dependências e scripts
-├── tsconfig.json         # Configuração TypeScript
-└── vite.config.ts        # Configuração do bundler
-```
-
-## Como Contribuir
-
-Contribuições são bem-vindas! Siga os passos:
-
-1. Faça um fork do projeto.
-2. Crie uma branch para sua feature ou correção: `git checkout -b minha-feature`
-3. Faça commits claros e descritivos.
-4. Envie um pull request detalhando as mudanças realizadas.
-
-Por favor, mantenha a consistência do código e siga as boas práticas de desenvolvimento.
-
-## Licença
-
-Este projeto está licenciado sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
-
----
-
-© 2024 Conversor Markdown para HTML. Todos os direitos reservados.
+## License
+This project is licensed under the MIT License. See the LICENSE file for more details.

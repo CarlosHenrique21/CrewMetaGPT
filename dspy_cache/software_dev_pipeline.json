@@ -1,0 +1,174 @@
+{
+  "product_manager.retrieve": {
+    "k": 3
+  },
+  "product_manager.generate_prd.predict": {
+    "traces": [],
+    "train": [],
+    "demos": [
+      {
+        "project_idea": "crie um gerador de senhas seguras CLI com op\u00e7\u00f5es de tamanho, caracteres especiais e for\u00e7a",
+        "expected_quality": "high"
+      }
+    ],
+    "signature": {
+      "instructions": "Create a comprehensive Product Requirements Document from a project idea.",
+      "fields": [
+        {
+          "prefix": "Project Idea:",
+          "description": "The software project idea to develop"
+        },
+        {
+          "prefix": "Context:",
+          "description": "Relevant examples and best practices from knowledge base"
+        },
+        {
+          "prefix": "Reasoning: Let's think step by step in order to",
+          "description": "${reasoning}"
+        },
+        {
+          "prefix": "Prd Content:",
+          "description": "Complete PRD in markdown format with: project overview, functional requirements, non-functional requirements, success metrics, constraints"
+        }
+      ]
+    },
+    "lm": null
+  },
+  "architect.retrieve": {
+    "k": 3
+  },
+  "architect.design.predict": {
+    "traces": [],
+    "train": [],
+    "demos": [
+      {
+        "project_idea": "crie um gerador de senhas seguras CLI com op\u00e7\u00f5es de tamanho, caracteres especiais e for\u00e7a",
+        "expected_quality": "high"
+      }
+    ],
+    "signature": {
+      "instructions": "Design robust, scalable software architecture based on requirements.",
+      "fields": [
+        {
+          "prefix": "Prd:",
+          "description": "Product Requirements Document"
+        },
+        {
+          "prefix": "Context:",
+          "description": "Architecture patterns and best practices from knowledge base"
+        },
+        {
+          "prefix": "Reasoning: Let's think step by step in order to",
+          "description": "${reasoning}"
+        },
+        {
+          "prefix": "Architecture Content:",
+          "description": "Detailed architecture document in markdown with: system overview, technology stack, component design, data models, file structure"
+        }
+      ]
+    },
+    "lm": null
+  },
+  "engineer.retrieve": {
+    "k": 3
+  },
+  "engineer.implement.predict": {
+    "traces": [],
+    "train": [],
+    "demos": [
+      {
+        "project_idea": "crie um gerador de senhas seguras CLI com op\u00e7\u00f5es de tamanho, caracteres especiais e for\u00e7a",
+        "expected_quality": "high"
+      }
+    ],
+    "signature": {
+      "instructions": "Implement high-quality, well-tested code based on architecture and requirements.",
+      "fields": [
+        {
+          "prefix": "Prd:",
+          "description": "Product Requirements Document"
+        },
+        {
+          "prefix": "Architecture:",
+          "description": "System architecture document"
+        },
+        {
+          "prefix": "Context:",
+          "description": "Code examples and patterns from knowledge base"
+        },
+        {
+          "prefix": "Reasoning: Let's think step by step in order to",
+          "description": "${reasoning}"
+        },
+        {
+          "prefix": "Implementation Plan:",
+          "description": "Implementation plan with file structure and main code components to be created"
+        }
+      ]
+    },
+    "lm": null
+  },
+  "qa_engineer.create_tests.predict": {
+    "traces": [],
+    "train": [],
+    "demos": [
+      {
+        "project_idea": "crie um gerador de senhas seguras CLI com op\u00e7\u00f5es de tamanho, caracteres especiais e for\u00e7a",
+        "expected_quality": "high"
+      }
+    ],
+    "signature": {
+      "instructions": "Create comprehensive testing strategy and test cases.",
+      "fields": [
+        {
+          "prefix": "Implementation Summary:",
+          "description": "Summary of the implementation"
+        },
+        {
+          "prefix": "Reasoning: Let's think step by step in order to",
+          "description": "${reasoning}"
+        },
+        {
+          "prefix": "Test Plan:",
+          "description": "Test plan and test cases in markdown format"
+        }
+      ]
+    },
+    "lm": null
+  },
+  "tech_writer.write_docs.predict": {
+    "traces": [],
+    "train": [],
+    "demos": [
+      {
+        "project_idea": "crie um gerador de senhas seguras CLI com op\u00e7\u00f5es de tamanho, caracteres especiais e for\u00e7a",
+        "expected_quality": "high"
+      }
+    ],
+    "signature": {
+      "instructions": "Create comprehensive project documentation.",
+      "fields": [
+        {
+          "prefix": "Project Summary:",
+          "description": "Summary of the entire project including PRD, architecture, and implementation"
+        },
+        {
+          "prefix": "Reasoning: Let's think step by step in order to",
+          "description": "${reasoning}"
+        },
+        {
+          "prefix": "Documentation:",
+          "description": "Complete documentation including README and user guide in markdown"
+        }
+      ]
+    },
+    "lm": null
+  },
+  "metadata": {
+    "dependency_versions": {
+      "python": "3.11",
+      "dspy": "2.6.13",
+      "cloudpickle": "3.1"
+    }
+  }
+}
