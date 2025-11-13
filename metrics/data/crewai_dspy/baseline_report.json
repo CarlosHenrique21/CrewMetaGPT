@@ -1,0 +1,62 @@
+{
+  "test_type": "baseline_crewai_dspy_hybrid",
+  "test_date": "2025-11-13T04:04:55.393560",
+  "total_projects": 5,
+  "successful": 5,
+  "failed": 0,
+  "total_duration_seconds": 4359.03,
+  "avg_duration_per_project_seconds": 871.81,
+  "projects": [
+    {
+      "project_id": "project_01",
+      "project_name": "Todo List CLI",
+      "status": "success",
+      "duration_seconds": 1101.64,
+      "timestamp": "2025-11-13T03:09:57.958098",
+      "approach": "crewai_dspy_hybrid",
+      "note": "CrewAI framework + DSPy manual few-shot + RAG + AgentOps"
+    },
+    {
+      "project_id": "project_02",
+      "project_name": "URL Shortener API",
+      "status": "success",
+      "duration_seconds": 883.88,
+      "timestamp": "2025-11-13T03:24:51.847624",
+      "approach": "crewai_dspy_hybrid",
+      "note": "CrewAI framework + DSPy manual few-shot + RAG + AgentOps"
+    },
+    {
+      "project_id": "project_03",
+      "project_name": "Weather CLI",
+      "status": "success",
+      "duration_seconds": 870.65,
+      "timestamp": "2025-11-13T03:39:32.511138",
+      "approach": "crewai_dspy_hybrid",
+      "note": "CrewAI framework + DSPy manual few-shot + RAG + AgentOps"
+    },
+    {
+      "project_id": "project_04",
+      "project_name": "Password Generator",
+      "status": "success",
+      "duration_seconds": 502.87,
+      "timestamp": "2025-11-13T03:48:05.391002",
+      "approach": "crewai_dspy_hybrid",
+      "note": "CrewAI framework + DSPy manual few-shot + RAG + AgentOps"
+    },
+    {
+      "project_id": "project_05",
+      "project_name": "Markdown to HTML Converter",
+      "status": "success",
+      "duration_seconds": 999.99,
+      "timestamp": "2025-11-13T04:04:55.390908",
+      "approach": "crewai_dspy_hybrid",
+      "note": "CrewAI framework + DSPy manual few-shot + RAG + AgentOps"
+    }
+  ],
+  "approach": {
+    "framework": "CrewAI",
+    "optimization": "DSPy manual few-shot",
+    "rag": "enabled",
+    "tracking": "AgentOps (tools, agents, tasks, LLM, costs)"
+  }
+}

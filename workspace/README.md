@@ -1,89 +1,79 @@
-# CLI Simple Calculator
-
-A command-line interface calculator application that provides basic arithmetic operations: addition, subtraction, multiplication, and division. The application aims to deliver quick and efficient calculations for users who prefer using CLI tools.
+# Markdown to HTML Converter
+A web-based application that converts Markdown formatted text into HTML.
 
 ## Features
-- Perform addition, subtraction, multiplication, and division
-- Handle division by zero with proper error messaging
-- Display results in a user-friendly format
-- Maintain a history of calculations (optional)
+- Convert Markdown titles (H1, H2, H3) to corresponding HTML tags.
+- Convert Markdown lists (ordered and unordered) to HTML lists.
+- Convert Markdown links to HTML anchor tags.
+- Display the converted HTML output in real-time.
+- Download the converted HTML as a .html file.
+- Reset input and output areas.
 
 ## Installation Instructions
-1. Ensure you have Python 3.11 or higher installed on your system.
-2. Clone the repository:
+1. Clone the repository:
    ```bash
-   git clone <repository_url>
+   git clone https://github.com/yourusername/markdown-to-html-converter.git
+   cd markdown-to-html-converter
    ```
-3. Navigate to the project directory:
+2. Install dependencies:
    ```bash
-   cd cli_simple_calculator
+   npm install
    ```
-4. Install required packages:
+3. Start the application:
    ```bash
-   pip install -r requirements.txt
+   npm start
    ```
 
-## Usage Examples
-- To add two numbers:
-  ```bash
-  python cli.py add 3 5
-  ```
-  Expected output: `Result: 8`
+## Usage Example
+1. Open the application in your web browser.
+2. Enter Markdown text in the input area.
+3. Observe the HTML output appear in real-time.
+4. Click the 'Download' button to save your HTML output as a .html file.
 
-- To subtract two numbers:
-  ```bash
-  python cli.py subtract 10 4
-  ```
-  Expected output: `Result: 6`
-
-- To multiply numbers:
-  ```bash
-  python cli.py multiply 2 3 4
-  ```
-  Expected output: `Result: 24`
-
-- To divide two numbers:
-  ```bash
-  python cli.py divide 20 5
-  ```
-  Expected output: `Result: 4.0`
-
-## Project Structure Overview
+## Project Structure
 ```
-cli_simple_calculator/
-├── cli.py                # User interface and command handling
-├── calculator.py         # Business logic for arithmetic operations
-├── history.py            # Management of calculation history
-├── storage.py            # Data persistence layer
+markdown_to_html_converter/
+├── src/
+│   ├── components/
+│   │   ├── MarkdownInput.jsx    # Component for Markdown input
+│   │   ├── HtmlOutput.jsx        # Component for displaying HTML output
+│   │   └── PreviewButton.jsx      # Button for triggering the conversion
+│   ├── services/
+│   │   └── ConverterService.js    # Business logic for input validation and conversion
+│   ├── utils/
+│   │   └── MarkdownParser.js       # Custom Markdown parsing logic
+│   ├── App.jsx                    # Main application component
+│   └── index.js                   # Application entry point
 ├── tests/
-│   ├── test_calculator.py # Unit tests for calculator logic
-│   ├── test_history.py    # Unit tests for history management
-│   └── test_cli.py        # Unit tests for CLI interaction
-├── history.json          # Data file for storing calculation history
-└── README.md             # Project documentation and usage instructions
+│   ├── ConverterService.test.js    # Unit tests for ConverterService
+│   ├── MarkdownParser.test.js      # Unit tests for MarkdownParser
+│   └── App.test.js                # Unit tests for App component
+├── package.json                    # Project metadata and dependencies
+└── README.md                       # Project documentation
 ```
 
 ## Testing Instructions
-To run the tests, navigate to the project directory and execute:
-```bash
-python -m unittest discover -s tests
-```
+- Run unit tests:
+  ```bash
+  npm test
+  ```
+- Ensure at least 80% code coverage.
 
 ## Contributing Guidelines
 1. Fork the repository.
 2. Create a new branch:
    ```bash
-   git checkout -b feature/YourFeature
+   git checkout -b feature/your-feature
    ```
 3. Make your changes and commit them:
    ```bash
-   git commit -m "Add your message"
+   git commit -m "Add your feature"
    ```
 4. Push to the branch:
    ```bash
-   git push origin feature/YourFeature
+   git push origin feature/your-feature
    ```
 5. Create a pull request.
 
 ## License
-This project is licensed under the MIT License.
+MIT License.
